@@ -1,9 +1,9 @@
 from fastapi import FastAPI
-from fastapi.security import HTTPBearer
 from database import Base, engine
 from routers import auth as auth_router
 from routers import admin as admin_router
 from routers import packages as packages_router
+from routers import balance as balance_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -42,6 +42,7 @@ app.openapi = custom_openapi
 app.include_router(auth_router.router)
 app.include_router(admin_router.router)
 app.include_router(packages_router.router)
+app.include_router(balance_router.router)
 
 @app.get("/")
 def root():

@@ -2,7 +2,6 @@ from pydantic import BaseModel, EmailStr
 from typing import Optional
 from datetime import datetime
 from models import UserRole
-from datetime import datetime
 
 # --- Auth ---
 class LoginRequest(BaseModel):
@@ -51,9 +50,7 @@ class MachineOut(MachineCreate):
     class Config:
         from_attributes = True
 
-
-
-
+# --- Packages ---
 class PackageCreate(BaseModel):
     name: str
     price_kes: float
@@ -79,3 +76,19 @@ class PackageOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+# --- User Balance ---
+class BalanceOut(BaseModel):
+    user_id: int
+    full_name: str
+    balance_mins: float
+    total_topped: float
+    total_used: float
+    last_updated: datetime
+
+    class Config:
+        from_attributes = True
+
+class TopUpBalance(BaseModel):
+    user_id: int
+    minutes: float  # Minutes to add

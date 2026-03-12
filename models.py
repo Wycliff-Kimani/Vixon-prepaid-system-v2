@@ -23,7 +23,6 @@ class User(Base):
     distro_id        = Column(Integer, ForeignKey("users.id"), nullable=True)
     created_at       = Column(DateTime, default=datetime.utcnow)
 
-    # Self-referencing relationship with remote_side
     managed_users = relationship(
         "User",
         foreign_keys="User.distro_id",
@@ -43,6 +42,9 @@ class User(Base):
         back_populates="distro"
     )
 
+    balance = relationship("UserBalance", back_populates="user", uselist=False)
+
+
 class Machine(Base):
     __tablename__ = "machines"
 
@@ -54,6 +56,7 @@ class Machine(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
     transactions = relationship("Transaction", back_populates="machine")
+
 
 class Transaction(Base):
     __tablename__ = "transactions"
@@ -74,6 +77,7 @@ class Transaction(Base):
     distro  = relationship("User", foreign_keys=[distro_id], back_populates="distro_transactions")
     machine = relationship("Machine", back_populates="transactions")
 
+
 class DistroEarnings(Base):
     __tablename__ = "distro_earnings"
 
@@ -89,10 +93,23 @@ class DistroEarnings(Base):
 class Package(Base):
     __tablename__ = "packages"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    price_kes = Column(Float, nullable=False)
-    credits = Column(Integer, nullable=False)
+    id          = Column(Integer, primary_key=True, index=True)
+    name        = Column(String, nullable=False)
+    price_kes   = Column(Float, nullable=False)
+    credits     = Column(Integer, nullable=False)
     description = Column(String, nullable=True)
-    is_active = Column(Boolean, default=True)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    is_active   = Column(Boolean, default=True)
+    created_at  = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class UserBalance(Base):
+    __tablename__ = "user_balance"
+
+    id             = Column(Integer, primary_key=True, index=True)
+    user_id        = Column(Integer, ForeignKey("users.id"), unique=True, nullable=False)
+    balance_mins   = Column(Float, default=0.0)  # Current minutes available
+    total_topped   = Column(Float, default=0.0)  # Lifetime minutes added
+    total_used     = Column(Float, default=0.0)  # Lifetime minutes used
+    last_updated   = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    user = relationship("User", back_populates="balance")
