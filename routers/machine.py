@@ -9,7 +9,7 @@ from auth import get_current_user, require_super_admin
 router = APIRouter(prefix="/machine", tags=["Machine"])
 
 
-# --- PIN login at machine ---
+# --- PIN + Phone login at machine ---
 @router.post("/login", response_model=PinLoginResponse)
 def machine_pin_login(
     data: PinLoginRequest,
@@ -23,7 +23,11 @@ def machine_pin_login(
     ).first()
 
     if not user:
-        raise HTTPException(status_code=404, detail="Invalid PIN")
+        raise HTTPException(status_code=404, detail="Invalid PIN or phone number")
+
+    # Check last 3 digits of phone
+    if not user.phone or not user.phone.endswith(data.phone_last3):
+        raise HTTPException(status_code=404, detail="Invalid PIN or phone number")
 
     # Get balance
     balance = db.query(UserBalance).filter(UserBalance.user_id == user.id).first()
@@ -33,7 +37,6 @@ def machine_pin_login(
         db.commit()
         db.refresh(balance)
 
-    # Get package name
     package_name = user.package.name if user.package else None
 
     return {
@@ -101,7 +104,7 @@ def mark_message_read(
     return {"success": True, "message": "Marked as read"}
 
 
-# --- Admin views unread messages count ---
+# --- Unread messages count ---
 @router.get("/messages/unread/count")
 def unread_count(
     db: Session = Depends(get_db),

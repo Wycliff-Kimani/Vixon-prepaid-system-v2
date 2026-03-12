@@ -20,7 +20,6 @@
         flex-direction: column;
       }
 
-      /* Header */
       .header {
         background: #111111;
         border-bottom: 2px solid #00c853;
@@ -48,7 +47,6 @@
         letter-spacing: 1px;
       }
 
-      /* Status bar */
       .status-bar {
         background: #111111;
         text-align: center;
@@ -97,7 +95,6 @@
         }
       }
 
-      /* Main container */
       .main {
         flex: 1;
         display: flex;
@@ -116,15 +113,60 @@
         text-align: center;
       }
 
-      /* PIN Screen */
-      #pin-screen h2 {
+      /* Step indicator */
+      .step-indicator {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+
+      .step {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 2px solid #333333;
+        color: #555555;
+        font-size: 0.75rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .step.active {
+        border-color: #00c853;
+        color: #00c853;
+      }
+
+      .step.done {
+        background: #00c853;
+        border-color: #00c853;
+        color: #000000;
+      }
+
+      .step-line {
+        flex: 1;
+        height: 2px;
+        background: #333333;
+        max-width: 40px;
+      }
+
+      .step-line.done {
+        background: #00c853;
+      }
+
+      #pin-screen h2,
+      #phone-screen h2 {
         font-size: 1rem;
         color: #888888;
         letter-spacing: 2px;
         margin-bottom: 8px;
       }
 
-      #pin-screen p {
+      #pin-screen p,
+      #phone-screen p {
         font-size: 0.8rem;
         color: #555555;
         margin-bottom: 24px;
@@ -151,25 +193,28 @@
         border-color: #00c853;
       }
 
-      .pin-input {
-        background: #1a1a1a;
-        border: 1px solid #333333;
-        border-radius: 10px;
-        color: #ffffff;
-        font-size: 1.5rem;
-        letter-spacing: 8px;
-        padding: 14px;
-        text-align: center;
-        width: 100%;
-        margin-bottom: 16px;
-        outline: none;
+      /* Phone input */
+      .phone-display {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 24px;
       }
 
-      .pin-input:focus {
+      .phone-dot {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 2px solid #333333;
+        background: transparent;
+        transition: all 0.2s;
+      }
+
+      .phone-dot.filled {
+        background: #00c853;
         border-color: #00c853;
       }
 
-      /* Numpad */
       .numpad {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -206,7 +251,6 @@
         grid-column: 2;
       }
 
-      /* Buttons */
       .btn {
         border: none;
         border-radius: 10px;
@@ -228,7 +272,6 @@
         background: #00c853;
         color: #000000;
       }
-
       .btn-green:hover {
         background: #00e676;
       }
@@ -243,7 +286,6 @@
         background: #ff1744;
         color: #ffffff;
       }
-
       .btn-red:hover {
         background: #ff4569;
       }
@@ -258,19 +300,19 @@
         border-color: #00c853;
         color: #00c853;
       }
-
       .btn-submit {
         background: #00c853;
         color: #000000;
         font-size: 1rem;
       }
-
       .btn-submit:hover {
         background: #00e676;
       }
 
-      /* Machine screen */
       #machine-screen {
+        display: none;
+      }
+      #phone-screen {
         display: none;
       }
 
@@ -296,7 +338,6 @@
         font-weight: 700;
         color: #ffffff;
       }
-
       .user-package {
         font-size: 0.75rem;
         color: #00c853;
@@ -318,21 +359,18 @@
         letter-spacing: 2px;
         margin-bottom: 8px;
       }
-
       .balance-value {
         font-size: 3rem;
         font-weight: 700;
         color: #00c853;
         line-height: 1;
       }
-
       .balance-value.low {
         color: #ff9800;
       }
       .balance-value.empty {
         color: #ff1744;
       }
-
       .balance-unit {
         font-size: 0.8rem;
         color: #555555;
@@ -345,7 +383,6 @@
         margin: 16px 0;
       }
 
-      /* Error message */
       .error-msg {
         background: #1a0a0a;
         border: 1px solid #ff1744;
@@ -357,7 +394,6 @@
         display: none;
       }
 
-      /* Modal */
       .modal-overlay {
         position: fixed;
         inset: 0;
@@ -388,14 +424,12 @@
         letter-spacing: 1px;
         margin-bottom: 16px;
       }
-
       .modal p {
         color: #888888;
         font-size: 0.85rem;
         line-height: 1.6;
         margin-bottom: 8px;
       }
-
       .modal .highlight {
         color: #ffffff;
         font-weight: 700;
@@ -451,7 +485,22 @@
         border-color: #00c853;
       }
 
-      /* Responsive */
+      .back-btn {
+        background: transparent;
+        border: none;
+        color: #555555;
+        cursor: pointer;
+        font-size: 0.8rem;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .back-btn:hover {
+        color: #00c853;
+      }
+
       @media (max-width: 480px) {
         .card {
           padding: 24px 16px;
@@ -473,7 +522,6 @@
     </style>
   </head>
   <body>
-    <!-- Header -->
     <div class="header">
       <img src="/static/vixon-logo1.jpg" alt="Vixon Logo" />
       <div class="header-text">
@@ -482,19 +530,22 @@
       </div>
     </div>
 
-    <!-- Status Bar -->
     <div class="status-bar idle" id="status-bar">
       <span class="status-dot"></span>
       <span id="status-text">IDLE</span>
     </div>
 
-    <!-- Main -->
     <div class="main">
       <div class="card">
-        <!-- PIN Screen -->
+        <!-- Step 1: PIN Screen -->
         <div id="pin-screen">
-          <h2>MACHINE ACCESS</h2>
-          <p>Enter your 4-digit PIN to continue</p>
+          <div class="step-indicator">
+            <div class="step active" id="step1">1</div>
+            <div class="step-line" id="step-line1"></div>
+            <div class="step" id="step2">2</div>
+          </div>
+          <h2>ENTER YOUR PIN</h2>
+          <p>Enter your 4-digit PIN</p>
 
           <div class="pin-display">
             <div class="pin-dot" id="dot-1"></div>
@@ -504,25 +555,68 @@
           </div>
 
           <div class="error-msg" id="pin-error">
-            Invalid PIN. Please try again.
+            Invalid PIN or phone number.
           </div>
 
           <div class="numpad">
-            <button class="num-btn" onclick="addDigit('1')">1</button>
-            <button class="num-btn" onclick="addDigit('2')">2</button>
-            <button class="num-btn" onclick="addDigit('3')">3</button>
-            <button class="num-btn" onclick="addDigit('4')">4</button>
-            <button class="num-btn" onclick="addDigit('5')">5</button>
-            <button class="num-btn" onclick="addDigit('6')">6</button>
-            <button class="num-btn" onclick="addDigit('7')">7</button>
-            <button class="num-btn" onclick="addDigit('8')">8</button>
-            <button class="num-btn" onclick="addDigit('9')">9</button>
+            <button class="num-btn" onclick="addPinDigit('1')">1</button>
+            <button class="num-btn" onclick="addPinDigit('2')">2</button>
+            <button class="num-btn" onclick="addPinDigit('3')">3</button>
+            <button class="num-btn" onclick="addPinDigit('4')">4</button>
+            <button class="num-btn" onclick="addPinDigit('5')">5</button>
+            <button class="num-btn" onclick="addPinDigit('6')">6</button>
+            <button class="num-btn" onclick="addPinDigit('7')">7</button>
+            <button class="num-btn" onclick="addPinDigit('8')">8</button>
+            <button class="num-btn" onclick="addPinDigit('9')">9</button>
             <button class="num-btn clear" onclick="clearPin()">CLR</button>
-            <button class="num-btn zero" onclick="addDigit('0')">0</button>
-            <button class="num-btn clear" onclick="deleteDigit()">⌫</button>
+            <button class="num-btn zero" onclick="addPinDigit('0')">0</button>
+            <button class="num-btn clear" onclick="deletePinDigit()">⌫</button>
           </div>
 
-          <button class="btn btn-submit" onclick="submitPin()">ENTER</button>
+          <button class="btn btn-submit" onclick="goToPhoneStep()">
+            NEXT →
+          </button>
+        </div>
+
+        <!-- Step 2: Phone Confirmation Screen -->
+        <div id="phone-screen">
+          <div class="step-indicator">
+            <div class="step done" id="step1b">✓</div>
+            <div class="step-line done"></div>
+            <div class="step active" id="step2b">2</div>
+          </div>
+          <h2>CONFIRM IDENTITY</h2>
+          <p>Enter the last 3 digits of your registered phone number</p>
+
+          <div class="phone-display">
+            <div class="phone-dot" id="pdot-1"></div>
+            <div class="phone-dot" id="pdot-2"></div>
+            <div class="phone-dot" id="pdot-3"></div>
+          </div>
+
+          <div class="error-msg" id="phone-error">
+            Invalid PIN or phone number.
+          </div>
+
+          <div class="numpad">
+            <button class="num-btn" onclick="addPhoneDigit('1')">1</button>
+            <button class="num-btn" onclick="addPhoneDigit('2')">2</button>
+            <button class="num-btn" onclick="addPhoneDigit('3')">3</button>
+            <button class="num-btn" onclick="addPhoneDigit('4')">4</button>
+            <button class="num-btn" onclick="addPhoneDigit('5')">5</button>
+            <button class="num-btn" onclick="addPhoneDigit('6')">6</button>
+            <button class="num-btn" onclick="addPhoneDigit('7')">7</button>
+            <button class="num-btn" onclick="addPhoneDigit('8')">8</button>
+            <button class="num-btn" onclick="addPhoneDigit('9')">9</button>
+            <button class="num-btn clear" onclick="clearPhone()">CLR</button>
+            <button class="num-btn zero" onclick="addPhoneDigit('0')">0</button>
+            <button class="num-btn clear" onclick="deletePhoneDigit()">
+              ⌫
+            </button>
+          </div>
+
+          <button class="btn btn-submit" onclick="submitLogin()">ENTER</button>
+          <button class="back-btn" onclick="goBackToPin()">← Back</button>
         </div>
 
         <!-- Machine Screen -->
@@ -566,8 +660,8 @@
 
           <button
             class="btn btn-outline"
-            onclick="logout()"
             style="margin-top: 4px"
+            onclick="logout()"
           >
             🔒 LOGOUT
           </button>
@@ -581,7 +675,7 @@
         <h3>💳 HOW TO PAY</h3>
         <p>Send M-Pesa payment to:</p>
         <p>
-          Paybill: <span class="highlight" id="paybill-number">XXXXXXX</span>
+          Paybill: <span class="highlight" id="paybill-number">PENDING</span>
         </p>
         <p>
           Account No:
@@ -633,73 +727,117 @@
     </div>
 
     <script>
-      // --- State ---
-      const API = ""; // Same domain
-      const PAYBILL = "PENDING"; // Update when Vixon provides paybill
+      const API = "";
+      const PAYBILL = "PENDING";
       let pin = "";
+      let phone = "";
       let currentUser = null;
       let machineRunning = false;
       let deductInterval = null;
-      let authToken = null;
 
-      // --- PIN Functions ---
-      function addDigit(d) {
+      // --- PIN Step ---
+      function addPinDigit(d) {
         if (pin.length < 4) {
           pin += d;
-          updateDots();
-          if (pin.length === 4) submitPin();
+          updatePinDots();
         }
       }
 
-      function deleteDigit() {
+      function deletePinDigit() {
         pin = pin.slice(0, -1);
-        updateDots();
+        updatePinDots();
       }
 
       function clearPin() {
         pin = "";
-        updateDots();
+        updatePinDots();
         document.getElementById("pin-error").style.display = "none";
       }
 
-      function updateDots() {
+      function updatePinDots() {
         for (let i = 1; i <= 4; i++) {
-          const dot = document.getElementById(`dot-${i}`);
-          dot.classList.toggle("filled", i <= pin.length);
+          document
+            .getElementById(`dot-${i}`)
+            .classList.toggle("filled", i <= pin.length);
         }
       }
 
-      async function submitPin() {
+      function goToPhoneStep() {
         if (pin.length !== 4) return;
+        document.getElementById("pin-screen").style.display = "none";
+        document.getElementById("phone-screen").style.display = "block";
+        document.getElementById("phone-error").style.display = "none";
+      }
+
+      function goBackToPin() {
+        phone = "";
+        updatePhoneDots();
+        document.getElementById("phone-screen").style.display = "none";
+        document.getElementById("pin-screen").style.display = "block";
+      }
+
+      // --- Phone Step ---
+      function addPhoneDigit(d) {
+        if (phone.length < 3) {
+          phone += d;
+          updatePhoneDots();
+          if (phone.length === 3) submitLogin();
+        }
+      }
+
+      function deletePhoneDigit() {
+        phone = phone.slice(0, -1);
+        updatePhoneDots();
+      }
+
+      function clearPhone() {
+        phone = "";
+        updatePhoneDots();
+        document.getElementById("phone-error").style.display = "none";
+      }
+
+      function updatePhoneDots() {
+        for (let i = 1; i <= 3; i++) {
+          document
+            .getElementById(`pdot-${i}`)
+            .classList.toggle("filled", i <= phone.length);
+        }
+      }
+
+      // --- Submit Login ---
+      async function submitLogin() {
+        if (pin.length !== 4 || phone.length !== 3) return;
 
         try {
           const res = await fetch(`${API}/machine/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ pin }),
+            body: JSON.stringify({ pin, phone_last3: phone }),
           });
 
           const data = await res.json();
 
           if (!res.ok) {
-            document.getElementById("pin-error").style.display = "block";
-            clearPin();
+            document.getElementById("phone-error").style.display = "block";
+            phone = "";
+            updatePhoneDots();
             return;
           }
 
           currentUser = data;
           showMachineScreen();
         } catch (e) {
-          document.getElementById("pin-error").textContent =
+          document.getElementById("phone-error").textContent =
             "Connection error. Try again.";
-          document.getElementById("pin-error").style.display = "block";
-          clearPin();
+          document.getElementById("phone-error").style.display = "block";
+          phone = "";
+          updatePhoneDots();
         }
       }
 
-      // --- Screen Transitions ---
+      // --- Machine Screen ---
       function showMachineScreen() {
-        document.getElementById("pin-screen").style.display = "none";
+        document.getElementById("phone-screen").style.display = "none";
         document.getElementById("machine-screen").style.display = "block";
         document.getElementById("user-name").textContent =
           currentUser.full_name;
@@ -719,20 +857,17 @@
       }
 
       function updateStartButton() {
-        const btn = document.getElementById("start-btn");
-        btn.disabled = currentUser.balance_mins <= 0;
+        document.getElementById("start-btn").disabled =
+          currentUser.balance_mins <= 0;
       }
 
-      // --- Machine Control ---
       async function startMachine() {
         if (currentUser.balance_mins <= 0) return;
-
         machineRunning = true;
         document.getElementById("start-btn").style.display = "none";
         document.getElementById("stop-btn").style.display = "flex";
         setStatus("running", "RUNNING");
 
-        // Deduct 1 minute every 60 seconds
         deductInterval = setInterval(async () => {
           try {
             const res = await fetch(
@@ -760,14 +895,13 @@
           } catch (e) {
             console.error("Deduct error", e);
           }
-        }, 60000); // Every 60 seconds = 1 minute
+        }, 60000);
       }
 
       function stopMachine(outOfCredit = false) {
         machineRunning = false;
         clearInterval(deductInterval);
         deductInterval = null;
-
         document.getElementById("start-btn").style.display = "flex";
         document.getElementById("stop-btn").style.display = "none";
         document.getElementById("machine-error").style.display = "none";
@@ -793,19 +927,20 @@
         document.getElementById("status-text").textContent = text;
       }
 
-      // --- Logout ---
       function logout() {
         if (machineRunning) stopMachine();
         currentUser = null;
         pin = "";
-        updateDots();
+        phone = "";
+        updatePinDots();
+        updatePhoneDots();
         document.getElementById("machine-screen").style.display = "none";
+        document.getElementById("phone-screen").style.display = "none";
         document.getElementById("pin-screen").style.display = "block";
         document.getElementById("pin-error").style.display = "none";
         setStatus("idle", "IDLE");
       }
 
-      // --- Pay Modal ---
       async function loadPackages() {
         try {
           const res = await fetch(`${API}/packages/`);
@@ -830,11 +965,10 @@
       function showPayModal() {
         document.getElementById("paybill-number").textContent = PAYBILL;
         document.getElementById("modal-user-pin").textContent =
-          pin || currentUser?.user_id || "-";
+          currentUser?.user_id || "-";
         document.getElementById("pay-modal").classList.add("active");
       }
 
-      // --- Message Modal ---
       function showMessageModal() {
         document.getElementById("msg-input").value = "";
         document.getElementById("msg-error").style.display = "none";
@@ -847,9 +981,6 @@
           document.getElementById("msg-error").style.display = "block";
           return;
         }
-
-        // For now show success — will need auth token for real send
-        // Will wire up properly when frontend auth is built
         alert("Message sent to admin!");
         closeModal("message-modal");
       }
@@ -858,7 +989,6 @@
         document.getElementById(id).classList.remove("active");
       }
 
-      // Close modal on overlay click
       document.querySelectorAll(".modal-overlay").forEach((overlay) => {
         overlay.addEventListener("click", function (e) {
           if (e.target === this) this.classList.remove("active");

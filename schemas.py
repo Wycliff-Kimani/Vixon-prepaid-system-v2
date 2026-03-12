@@ -111,6 +111,7 @@ class DistroSettingsUpdate(BaseModel):
 # --- Machine PIN Access ---
 class PinLoginRequest(BaseModel):
     pin: str
+    phone_last3: str  # Last 3 digits of registered phone
 
 class PinLoginResponse(BaseModel):
     success: bool
