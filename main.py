@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from database import Base, engine
 from routers import auth as auth_router
 from routers import admin as admin_router
@@ -13,6 +15,10 @@ app = FastAPI(
     version="2.0.0",
     swagger_ui_parameters={"persistAuthorization": True}
 )
+
+# Static files and templates
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
 from fastapi.openapi.utils import get_openapi
 
@@ -45,6 +51,13 @@ app.include_router(admin_router.router)
 app.include_router(packages_router.router)
 app.include_router(balance_router.router)
 app.include_router(machine_router.router)
+
+from fastapi import Request
+from fastapi.responses import HTMLResponse
+
+@app.get("/machine-screen", response_class=HTMLResponse)
+def machine_screen(request: Request):
+    return templates.TemplateResponse("machine.html", {"request": request})
 
 @app.get("/")
 def root():
