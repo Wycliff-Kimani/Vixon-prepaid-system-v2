@@ -1,4 +1,3 @@
- 
 fastapi
 uvicorn
 sqlalchemy
@@ -8,4 +7,6 @@ passlib[bcrypt]
 python-dotenv
 python-multipart
 alembic
+pydantic[email]
+email-validator
 bcrypt==4.0.1
