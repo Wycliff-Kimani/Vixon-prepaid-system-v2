@@ -21,6 +21,8 @@ class User(Base):
     role             = Column(Enum(UserRole), default=UserRole.user)
     is_active        = Column(Boolean, default=True)
     distro_id        = Column(Integer, ForeignKey("users.id"), nullable=True)
+    pin              = Column(String(4), unique=True, nullable=True)
+    package_id       = Column(Integer, ForeignKey("packages.id"), nullable=True)
     created_at       = Column(DateTime, default=datetime.utcnow)
 
     managed_users = relationship(
@@ -43,6 +45,7 @@ class User(Base):
     )
 
     balance = relationship("UserBalance", back_populates="user", uselist=False)
+    package = relationship("Package", foreign_keys=[package_id])
 
 
 class Machine(Base):
@@ -105,11 +108,23 @@ class Package(Base):
 class UserBalance(Base):
     __tablename__ = "user_balance"
 
-    id             = Column(Integer, primary_key=True, index=True)
-    user_id        = Column(Integer, ForeignKey("users.id"), unique=True, nullable=False)
-    balance_mins   = Column(Float, default=0.0)  # Current minutes available
-    total_topped   = Column(Float, default=0.0)  # Lifetime minutes added
-    total_used     = Column(Float, default=0.0)  # Lifetime minutes used
-    last_updated   = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    id           = Column(Integer, primary_key=True, index=True)
+    user_id      = Column(Integer, ForeignKey("users.id"), unique=True, nullable=False)
+    balance_mins = Column(Float, default=0.0)
+    total_topped = Column(Float, default=0.0)
+    total_used   = Column(Float, default=0.0)
+    last_updated = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     user = relationship("User", back_populates="balance")
+
+
+class DistroSettings(Base):
+    __tablename__ = "distro_settings"
+
+    id              = Column(Integer, primary_key=True, index=True)
+    distro_id       = Column(Integer, ForeignKey("users.id"), unique=True, nullable=False)
+    commission_rate = Column(Float, default=10.0)
+    created_at      = Column(DateTime, default=datetime.utcnow)
+    updated_at      = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    distro = relationship("User", foreign_keys=[distro_id])

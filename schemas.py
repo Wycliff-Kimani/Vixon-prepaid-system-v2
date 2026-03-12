@@ -22,6 +22,7 @@ class UserCreate(BaseModel):
     password: str
     role: UserRole = UserRole.user
     distro_id: Optional[int] = None
+    package_id: Optional[int] = None
 
 class UserOut(BaseModel):
     id: int
@@ -31,6 +32,8 @@ class UserOut(BaseModel):
     role: UserRole
     is_active: bool
     distro_id: Optional[int]
+    package_id: Optional[int]
+    pin: Optional[str]
     created_at: datetime
 
     class Config:
@@ -91,4 +94,43 @@ class BalanceOut(BaseModel):
 
 class TopUpBalance(BaseModel):
     user_id: int
-    minutes: float  # Minutes to add
+    minutes: float
+
+# --- Distro Settings ---
+class DistroSettingsOut(BaseModel):
+    distro_id: int
+    commission_rate: float
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True
+
+class DistroSettingsUpdate(BaseModel):
+    commission_rate: float
+
+# --- Machine PIN Access ---
+class PinLoginRequest(BaseModel):
+    pin: str
+
+class PinLoginResponse(BaseModel):
+    success: bool
+    user_id: int
+    full_name: str
+    balance_mins: float
+    package_name: str | None
+    message: str
+
+# --- User Messages ---
+class UserMessageCreate(BaseModel):
+    message: str
+
+class UserMessageOut(BaseModel):
+    id: int
+    user_id: int
+    full_name: str
+    message: str
+    is_read: bool
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
