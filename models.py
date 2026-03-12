@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, ForeignKey, Enum
+from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, ForeignKey, Enum, func
 from sqlalchemy.orm import relationship
 from database import Base
 from datetime import datetime
@@ -84,3 +84,15 @@ class DistroEarnings(Base):
     is_paid        = Column(Boolean, default=False)
     period         = Column(String)
     created_at     = Column(DateTime, default=datetime.utcnow)
+
+
+class Package(Base):
+    __tablename__ = "packages"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    price_kes = Column(Float, nullable=False)
+    credits = Column(Integer, nullable=False)
+    description = Column(String, nullable=True)
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
