@@ -9,36 +9,7 @@ from auth import get_current_user, require_super_admin
 router = APIRouter(prefix="/balance", tags=["Balance"])
 
 
-# --- Get any user's balance (admin/secretary) ---
-@router.get("/{user_id}", response_model=BalanceOut)
-def get_user_balance(
-    user_id: int,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(require_super_admin)
-):
-    user = db.query(User).filter(User.id == user_id).first()
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-
-    balance = db.query(UserBalance).filter(UserBalance.user_id == user_id).first()
-    if not balance:
-        # Auto-create a zero balance record if none exists
-        balance = UserBalance(user_id=user_id)
-        db.add(balance)
-        db.commit()
-        db.refresh(balance)
-
-    return {
-        "user_id": user.id,
-        "full_name": user.full_name,
-        "balance_mins": balance.balance_mins,
-        "total_topped": balance.total_topped,
-        "total_used": balance.total_used,
-        "last_updated": balance.last_updated
-    }
-
-
-# --- Get my own balance (any logged-in user) ---
+# --- Get my own balance (any logged-in user) --- MUST be before /{user_id}
 @router.get("/me/balance", response_model=BalanceOut)
 def get_my_balance(
     db: Session = Depends(get_db),
@@ -54,6 +25,34 @@ def get_my_balance(
     return {
         "user_id": current_user.id,
         "full_name": current_user.full_name,
+        "balance_mins": balance.balance_mins,
+        "total_topped": balance.total_topped,
+        "total_used": balance.total_used,
+        "last_updated": balance.last_updated
+    }
+
+
+# --- Get any user's balance (admin only) ---
+@router.get("/{user_id}", response_model=BalanceOut)
+def get_user_balance(
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_super_admin)
+):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    balance = db.query(UserBalance).filter(UserBalance.user_id == user_id).first()
+    if not balance:
+        balance = UserBalance(user_id=user_id)
+        db.add(balance)
+        db.commit()
+        db.refresh(balance)
+
+    return {
+        "user_id": user.id,
+        "full_name": user.full_name,
         "balance_mins": balance.balance_mins,
         "total_topped": balance.total_topped,
         "total_used": balance.total_used,
