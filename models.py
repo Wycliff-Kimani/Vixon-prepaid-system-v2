@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, ForeignKey, Enum, func
+from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, ForeignKey, Enum, func, Text
 from sqlalchemy.orm import relationship
 from database import Base
 from datetime import datetime
@@ -44,8 +44,9 @@ class User(Base):
         back_populates="distro"
     )
 
-    balance = relationship("UserBalance", back_populates="user", uselist=False)
-    package = relationship("Package", foreign_keys=[package_id])
+    balance  = relationship("UserBalance", back_populates="user", uselist=False)
+    package  = relationship("Package", foreign_keys=[package_id])
+    messages = relationship("UserMessage", back_populates="user")
 
 
 class Machine(Base):
@@ -128,3 +129,15 @@ class DistroSettings(Base):
     updated_at      = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     distro = relationship("User", foreign_keys=[distro_id])
+
+
+class UserMessage(Base):
+    __tablename__ = "user_messages"
+
+    id         = Column(Integer, primary_key=True, index=True)
+    user_id    = Column(Integer, ForeignKey("users.id"), nullable=False)
+    message    = Column(Text, nullable=False)
+    is_read    = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    user = relationship("User", back_populates="messages")
