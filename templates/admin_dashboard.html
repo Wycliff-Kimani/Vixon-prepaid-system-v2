@@ -1298,11 +1298,23 @@
             return;
           }
 
+          // Fetch commission settings for each distro
+          const settingsResults = await Promise.all(
+            distros.map((d) =>
+              fetch(`${API}/admin/distributors/${d.id}/settings`, {
+                headers: authHeaders(),
+              })
+                .then((r) => (r.ok ? r.json() : { commission_rate: 10.0 }))
+                .catch(() => ({ commission_rate: 10.0 })),
+            ),
+          );
+
           list.innerHTML = distros
-            .map((d) => {
+            .map((d, i) => {
               const userCount = users.filter(
                 (u) => u.distro_id === d.id,
               ).length;
+              const commission = settingsResults[i]?.commission_rate ?? 10.0;
               return `
                 <div class="item-card">
                     <div class="item-card-top">
@@ -1313,10 +1325,10 @@
                         <div class="meta-item">Email: <span>${d.email}</span></div>
                         <div class="meta-item">Phone: <span>${d.phone || "—"}</span></div>
                         <div class="meta-item">Users: <span>${userCount}</span></div>
-                        <div class="meta-item">Commission: <span style="color:#00c853">10%</span></div>
+                        <div class="meta-item">Commission: <span style="color:#00c853;font-weight:700">${commission}%</span></div>
                     </div>
                     <div class="item-card-actions">
-                        <button class="btn-sm btn-gray-sm" onclick="openCommission(${d.id})">⚙ Commission</button>
+                        <button class="btn-sm btn-gray-sm" onclick="openCommission(${d.id}, ${commission})">⚙ Commission</button>
                         ${d.is_active ? `<button class="btn-sm btn-red-sm" onclick="deactivateUser(${d.id}, '${d.full_name}')">Deactivate</button>` : ""}
                     </div>
                 </div>`;
@@ -1326,6 +1338,12 @@
           list.innerHTML =
             '<div class="empty-state">Failed to load distributors.</div>';
         }
+      }
+
+      function openCommission(distroId, currentRate) {
+        document.getElementById("commission-distro-id").value = distroId;
+        document.getElementById("commission-rate").value = currentRate ?? "";
+        openModal("modal-commission");
       }
 
       function openAddDistro() {
