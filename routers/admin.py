@@ -59,7 +59,6 @@ def create_distributor(
     db.commit()
     db.refresh(distro)
 
-    # Auto-create default distro settings (10% commission)
     settings = models.DistroSettings(distro_id=distro.id, commission_rate=10.0)
     db.add(settings)
     db.commit()
@@ -108,7 +107,6 @@ def create_user(
     db.commit()
     db.refresh(user)
 
-    # Auto-create zero balance for this user
     balance = models.UserBalance(user_id=user.id)
     db.add(balance)
     db.commit()

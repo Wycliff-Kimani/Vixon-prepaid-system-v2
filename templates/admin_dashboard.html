@@ -11,7 +11,6 @@
         padding: 0;
         box-sizing: border-box;
       }
-
       body {
         background: #0a0a0a;
         color: #ffffff;
@@ -20,8 +19,6 @@
         display: flex;
         flex-direction: column;
       }
-
-      /* ========== TOPBAR ========== */
       .topbar {
         background: #0f0f0f;
         border-bottom: 1px solid #1a1a1a;
@@ -33,13 +30,11 @@
         top: 0;
         z-index: 100;
       }
-
       .topbar-logo {
         display: flex;
         align-items: center;
         gap: 10px;
       }
-
       .topbar-logo img {
         width: 34px;
         height: 34px;
@@ -47,38 +42,27 @@
         object-fit: cover;
         filter: drop-shadow(0 0 8px rgba(0, 200, 83, 0.5));
       }
-
       .topbar-logo-text h2 {
         font-size: 0.9rem;
         font-weight: 800;
         letter-spacing: 3px;
         color: #ffffff;
       }
-
       .topbar-logo-text p {
         font-size: 0.55rem;
         color: #00c853;
         letter-spacing: 2px;
       }
-
       .topbar-right {
         display: flex;
         align-items: center;
         gap: 12px;
       }
-
-      .topbar-section-title {
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: #ffffff;
-      }
-
       .topbar-admin {
         font-size: 0.7rem;
         color: #00c853;
         display: none;
       }
-
       .btn-logout-top {
         background: transparent;
         border: 1px solid #2a2a2a;
@@ -90,19 +74,14 @@
         transition: all 0.15s;
         white-space: nowrap;
       }
-
       .btn-logout-top:hover {
         border-color: #ff1744;
         color: #ff1744;
       }
-
-      /* ========== MAIN LAYOUT ========== */
       .layout {
         display: flex;
         flex: 1;
       }
-
-      /* ========== SIDEBAR (desktop) ========== */
       .sidebar {
         background: #0f0f0f;
         border-right: 1px solid #1a1a1a;
@@ -116,19 +95,16 @@
         height: calc(100vh - 57px);
         overflow-y: auto;
       }
-
       .sidebar-nav {
         padding: 12px 0;
         flex: 1;
       }
-
       .nav-section-label {
         font-size: 0.58rem;
         color: #333333;
         letter-spacing: 2px;
         padding: 10px 14px 4px;
       }
-
       .nav-item {
         display: flex;
         align-items: center;
@@ -142,7 +118,6 @@
         border-left: 3px solid transparent;
         position: relative;
       }
-
       .nav-item:hover {
         background: #151515;
         color: #aaaaaa;
@@ -157,7 +132,6 @@
         width: 20px;
         text-align: center;
       }
-
       .badge {
         background: #ff1744;
         border-radius: 10px;
@@ -167,70 +141,56 @@
         padding: 2px 6px;
         margin-left: auto;
       }
-
-      /* ========== CONTENT ========== */
       .content {
         flex: 1;
         padding: 20px 16px;
         min-width: 0;
       }
-
       .section {
         display: none;
       }
       .section.active {
         display: block;
       }
-
-      /* ========== STATS ========== */
       .stats-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
         margin-bottom: 24px;
       }
-
       .stat-card {
         background: #111111;
         border: 1px solid #1e1e1e;
         border-radius: 12px;
         padding: 16px;
       }
-
       .stat-label {
         font-size: 0.6rem;
         color: #555555;
         letter-spacing: 2px;
         margin-bottom: 6px;
       }
-
       .stat-value {
         font-size: 2rem;
         font-weight: 700;
         color: #00c853;
         line-height: 1;
       }
-
       .stat-sub {
         font-size: 0.65rem;
         color: #444444;
         margin-top: 4px;
       }
-
-      /* ========== SECTION HEADER ========== */
       .section-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 16px;
       }
-
       .section-header h3 {
         font-size: 0.95rem;
         font-weight: 700;
       }
-
-      /* ========== BUTTONS ========== */
       .btn-primary {
         background: #00c853;
         border: none;
@@ -244,11 +204,9 @@
         transition: background 0.2s;
         white-space: nowrap;
       }
-
       .btn-primary:hover {
         background: #00e676;
       }
-
       .btn-sm {
         border: none;
         border-radius: 6px;
@@ -259,7 +217,6 @@
         transition: all 0.15s;
         white-space: nowrap;
       }
-
       .btn-green-sm {
         background: #0d1f14;
         color: #00c853;
@@ -287,57 +244,46 @@
         background: #252525;
         color: #fff;
       }
-
-      /* ========== CARDS (mobile-first list) ========== */
       .card-list {
         display: flex;
         flex-direction: column;
         gap: 10px;
       }
-
       .item-card {
         background: #111111;
         border: 1px solid #1e1e1e;
         border-radius: 12px;
         padding: 14px 16px;
       }
-
       .item-card-top {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
         margin-bottom: 8px;
       }
-
       .item-card-name {
         font-size: 0.9rem;
         font-weight: 700;
         color: #ffffff;
       }
-
       .item-card-meta {
         display: flex;
         flex-wrap: wrap;
         gap: 6px;
         margin-bottom: 10px;
       }
-
       .meta-item {
         font-size: 0.72rem;
         color: #666666;
       }
-
       .meta-item span {
         color: #aaaaaa;
       }
-
       .item-card-actions {
         display: flex;
         gap: 8px;
         flex-wrap: wrap;
       }
-
-      /* ========== PILLS ========== */
       .pill {
         border-radius: 20px;
         font-size: 0.62rem;
@@ -346,7 +292,6 @@
         padding: 3px 9px;
         white-space: nowrap;
       }
-
       .pill-green {
         background: #0d1f14;
         color: #00c853;
@@ -363,8 +308,6 @@
         background: #1a1a1a;
         color: #888888;
       }
-
-      /* ========== MESSAGES ========== */
       .msg-item {
         background: #111111;
         border: 1px solid #1e1e1e;
@@ -372,14 +315,12 @@
         padding: 14px;
         margin-bottom: 10px;
       }
-
       .msg-item.unread {
         border-left: 3px solid #00c853;
       }
       .msg-item.read {
         opacity: 0.55;
       }
-
       .msg-header {
         display: flex;
         justify-content: space-between;
@@ -387,7 +328,6 @@
         margin-bottom: 6px;
         gap: 8px;
       }
-
       .msg-sender {
         font-size: 0.85rem;
         font-weight: 600;
@@ -403,8 +343,6 @@
         line-height: 1.5;
         margin-bottom: 8px;
       }
-
-      /* ========== MODAL ========== */
       .modal-overlay {
         position: fixed;
         inset: 0;
@@ -415,11 +353,9 @@
         z-index: 300;
         padding: 0;
       }
-
       .modal-overlay.active {
         display: flex;
       }
-
       .modal {
         background: #111111;
         border: 1px solid #1e1e1e;
@@ -430,7 +366,6 @@
         max-height: 90vh;
         overflow-y: auto;
       }
-
       .modal-handle {
         width: 40px;
         height: 4px;
@@ -438,18 +373,15 @@
         border-radius: 2px;
         margin: 0 auto 20px;
       }
-
       .modal h3 {
         font-size: 0.95rem;
         color: #00c853;
         letter-spacing: 1px;
         margin-bottom: 18px;
       }
-
       .form-group {
         margin-bottom: 14px;
       }
-
       .form-group label {
         display: block;
         font-size: 0.62rem;
@@ -457,7 +389,6 @@
         letter-spacing: 2px;
         margin-bottom: 6px;
       }
-
       .form-group input,
       .form-group select {
         background: #1a1a1a;
@@ -470,28 +401,23 @@
         outline: none;
         -webkit-appearance: none;
       }
-
       .form-group input:focus,
       .form-group select:focus {
         border-color: #00c853;
       }
-
       .form-group select option {
         background: #1a1a1a;
       }
-
       .modal-actions {
         display: flex;
         gap: 10px;
         margin-top: 20px;
       }
-
       .modal-actions .btn-primary {
         flex: 1;
         padding: 14px;
         font-size: 0.9rem;
       }
-
       .btn-cancel {
         background: transparent;
         border: 1px solid #2a2a2a;
@@ -502,12 +428,10 @@
         padding: 14px 16px;
         transition: all 0.15s;
       }
-
       .btn-cancel:hover {
         border-color: #555;
         color: #888;
       }
-
       .pin-result {
         background: #0d1f14;
         border: 1px solid #00c853;
@@ -521,7 +445,6 @@
         margin-top: 12px;
         display: none;
       }
-
       .loading {
         color: #444444;
         font-size: 0.82rem;
@@ -534,8 +457,6 @@
         padding: 40px;
         text-align: center;
       }
-
-      /* ========== BOTTOM NAV (mobile) ========== */
       .bottom-nav {
         display: none;
         position: fixed;
@@ -547,12 +468,10 @@
         z-index: 200;
         padding: 0;
       }
-
       .bottom-nav-inner {
         display: flex;
         justify-content: space-around;
       }
-
       .bottom-nav-item {
         flex: 1;
         display: flex;
@@ -568,14 +487,12 @@
         transition: color 0.15s;
         position: relative;
       }
-
       .bottom-nav-item.active {
         color: #00c853;
       }
       .bottom-nav-item .nav-icon {
         font-size: 1.3rem;
       }
-
       .bottom-nav-item .nav-badge {
         position: absolute;
         top: 6px;
@@ -587,8 +504,6 @@
         font-weight: 700;
         padding: 1px 5px;
       }
-
-      /* ========== RESPONSIVE ========== */
       @media (max-width: 640px) {
         .sidebar {
           display: none;
@@ -610,7 +525,6 @@
           font-size: 1.8rem;
         }
       }
-
       @media (min-width: 641px) {
         .bottom-nav {
           display: none;
@@ -619,7 +533,6 @@
           display: block;
         }
       }
-
       @media (min-width: 900px) {
         .stats-grid {
           grid-template-columns: repeat(4, 1fr);
@@ -628,7 +541,6 @@
     </style>
   </head>
   <body>
-    <!-- Topbar -->
     <div class="topbar">
       <div class="topbar-logo">
         <img src="/static/vixon-logo1.jpg" alt="Vixon" />
@@ -643,9 +555,7 @@
       </div>
     </div>
 
-    <!-- Layout -->
     <div class="layout">
-      <!-- Sidebar (desktop) -->
       <div class="sidebar">
         <nav class="sidebar-nav">
           <div class="nav-section-label">MAIN</div>
@@ -692,7 +602,6 @@
         </nav>
       </div>
 
-      <!-- Content -->
       <div class="content">
         <!-- OVERVIEW -->
         <div class="section active" id="section-overview">
@@ -753,9 +662,7 @@
           <div class="section-header">
             <h3>Messages</h3>
           </div>
-          <div id="messages-list">
-            <div class="loading">Loading...</div>
-          </div>
+          <div id="messages-list"><div class="loading">Loading...</div></div>
         </div>
 
         <!-- PACKAGES -->
@@ -781,32 +688,28 @@
           data-section="overview"
           onclick="showSection('overview', this)"
         >
-          <span class="nav-icon">📊</span>
-          <span>Overview</span>
+          <span class="nav-icon">📊</span><span>Overview</span>
         </div>
         <div
           class="bottom-nav-item"
           data-section="users"
           onclick="showSection('users', this)"
         >
-          <span class="nav-icon">👤</span>
-          <span>Users</span>
+          <span class="nav-icon">👤</span><span>Users</span>
         </div>
         <div
           class="bottom-nav-item"
           data-section="distributors"
           onclick="showSection('distributors', this)"
         >
-          <span class="nav-icon">🏪</span>
-          <span>Distros</span>
+          <span class="nav-icon">🏪</span><span>Distros</span>
         </div>
         <div
           class="bottom-nav-item"
           data-section="messages"
           onclick="showSection('messages', this)"
         >
-          <span class="nav-icon">✉</span>
-          <span>Messages</span>
+          <span class="nav-icon">✉</span><span>Messages</span>
           <span class="nav-badge" id="bottom-msg-badge" style="display: none"
             >0</span
           >
@@ -816,8 +719,7 @@
           data-section="packages"
           onclick="showSection('packages', this)"
         >
-          <span class="nav-icon">📦</span>
-          <span>Packages</span>
+          <span class="nav-icon">📦</span><span>Packages</span>
         </div>
       </div>
     </div>
@@ -848,14 +750,14 @@
           />
         </div>
         <div class="form-group">
-          <label>PACKAGE</label>
-          <select id="user-package">
+          <label>PACKAGE</label
+          ><select id="user-package">
             <option value="">— Select Package —</option>
           </select>
         </div>
         <div class="form-group">
-          <label>DISTRIBUTOR (optional)</label>
-          <select id="user-distro">
+          <label>DISTRIBUTOR (optional)</label
+          ><select id="user-distro">
             <option value="">— Direct User —</option>
           </select>
         </div>
@@ -1007,7 +909,6 @@
       let adminName = localStorage.getItem("vixon_name") || "—";
 
       if (!token) window.location.href = "/login";
-
       document.getElementById("topbar-admin-name").textContent = adminName;
 
       function authHeaders() {
@@ -1022,7 +923,6 @@
         window.location.href = "/login";
       }
 
-      // --- Navigation ---
       function showSection(name, el) {
         document
           .querySelectorAll(".section")
@@ -1031,23 +931,17 @@
           .querySelectorAll(".nav-item, .bottom-nav-item")
           .forEach((n) => n.classList.remove("active"));
         document.getElementById(`section-${name}`).classList.add("active");
-
-        // Highlight clicked item + matching items in both navs
         document
           .querySelectorAll(`[data-section="${name}"]`)
           .forEach((n) => n.classList.add("active"));
-
         if (name === "overview") loadOverview();
         if (name === "users") loadUsers();
         if (name === "distributors") loadDistros();
         if (name === "messages") loadMessages();
         if (name === "packages") loadPackages();
-
-        // Scroll to top on mobile
         window.scrollTo(0, 0);
       }
 
-      // --- Overview ---
       async function loadOverview() {
         try {
           const [usersRes, distrosRes, msgsRes, pkgsRes] = await Promise.all([
@@ -1058,12 +952,10 @@
             }),
             fetch(`${API}/packages/`, { headers: authHeaders() }),
           ]);
-
           const users = await usersRes.json();
           const distros = await distrosRes.json();
           const msgs = await msgsRes.json();
           const pkgs = await pkgsRes.json();
-
           document.getElementById("stat-users").textContent = users.filter(
             (u) => u.role === "user" && u.is_active,
           ).length;
@@ -1073,7 +965,6 @@
           document.getElementById("stat-messages").textContent =
             msgs.unread_messages ?? 0;
           document.getElementById("stat-packages").textContent = pkgs.length;
-
           updateMsgBadge(msgs.unread_messages ?? 0);
         } catch (e) {
           console.error(e);
@@ -1092,54 +983,48 @@
         });
       }
 
-      // --- Users ---
       let allDistros = [],
         allPackages = [];
 
       async function loadUsers() {
         const list = document.getElementById("users-list");
         list.innerHTML = '<div class="loading">Loading...</div>';
-
         try {
           const [usersRes, distrosRes, pkgsRes] = await Promise.all([
             fetch(`${API}/admin/users`, { headers: authHeaders() }),
             fetch(`${API}/admin/distributors`, { headers: authHeaders() }),
             fetch(`${API}/packages/`, { headers: authHeaders() }),
           ]);
-
           const users = await usersRes.json();
           allDistros = await distrosRes.json();
           allPackages = await pkgsRes.json();
-
           const machineUsers = users.filter((u) => u.role === "user");
-
           if (!machineUsers.length) {
             list.innerHTML =
               '<div class="empty-state">No users yet. Add one above.</div>';
             return;
           }
-
           list.innerHTML = machineUsers
             .map((u) => {
               const distro = allDistros.find((d) => d.id === u.distro_id);
               const pkg = allPackages.find((p) => p.id === u.package_id);
               return `
-                <div class="item-card">
-                    <div class="item-card-top">
-                        <div class="item-card-name">${u.full_name}</div>
-                        <span class="pill ${u.is_active ? "pill-green" : "pill-red"}">${u.is_active ? "Active" : "Inactive"}</span>
-                    </div>
-                    <div class="item-card-meta">
-                        <div class="meta-item">PIN: <span style="color:#00c853;letter-spacing:2px;font-weight:700">${u.pin || "—"}</span></div>
-                        <div class="meta-item">Phone: <span>${u.phone || "—"}</span></div>
-                        <div class="meta-item">Package: <span>${pkg ? pkg.name : "None"}</span></div>
-                        <div class="meta-item">Distro: <span>${distro ? distro.full_name : "Direct"}</span></div>
-                    </div>
-                    <div class="item-card-actions">
-                        <button class="btn-sm btn-green-sm" onclick="openTopUp(${u.id}, '${u.full_name}')">💳 Top Up</button>
-                        ${u.is_active ? `<button class="btn-sm btn-red-sm" onclick="deactivateUser(${u.id}, '${u.full_name}')">Deactivate</button>` : ""}
-                    </div>
-                </div>`;
+              <div class="item-card">
+                <div class="item-card-top">
+                  <div class="item-card-name">${u.full_name}</div>
+                  <span class="pill ${u.is_active ? "pill-green" : "pill-red"}">${u.is_active ? "Active" : "Inactive"}</span>
+                </div>
+                <div class="item-card-meta">
+                  <div class="meta-item">PIN: <span style="color:#00c853;letter-spacing:2px;font-weight:700">${u.pin || "—"}</span></div>
+                  <div class="meta-item">Phone: <span>${u.phone || "—"}</span></div>
+                  <div class="meta-item">Package: <span>${pkg ? pkg.name : "None"}</span></div>
+                  <div class="meta-item">Distro: <span>${distro ? distro.full_name : "Direct"}</span></div>
+                </div>
+                <div class="item-card-actions">
+                  <button class="btn-sm btn-green-sm" onclick="openTopUp(${u.id}, '${u.full_name}')">💳 Top Up</button>
+                  ${u.is_active ? `<button class="btn-sm btn-red-sm" onclick="deactivateUser(${u.id}, '${u.full_name}')">Deactivate</button>` : ""}
+                </div>
+              </div>`;
             })
             .join("");
         } catch (e) {
@@ -1156,7 +1041,6 @@
           ]);
           allPackages = await pkgsRes.json();
           allDistros = await distrosRes.json();
-
           document.getElementById("user-package").innerHTML =
             '<option value="">— Select Package —</option>' +
             allPackages
@@ -1165,14 +1049,12 @@
                   `<option value="${p.id}">${p.name} — KES ${p.price_kes.toLocaleString()}</option>`,
               )
               .join("");
-
           document.getElementById("user-distro").innerHTML =
             '<option value="">— Direct User —</option>' +
             allDistros
               .map((d) => `<option value="${d.id}">${d.full_name}</option>`)
               .join("");
         } catch (e) {}
-
         document.getElementById("new-user-pin").style.display = "none";
         ["user-name", "user-email", "user-phone", "user-password"].forEach(
           (id) => (document.getElementById(id).value = ""),
@@ -1192,12 +1074,10 @@
           distro_id:
             parseInt(document.getElementById("user-distro").value) || null,
         };
-
         if (!payload.full_name || !payload.email || !payload.password) {
           alert("Name, email and password are required.");
           return;
         }
-
         try {
           const res = await fetch(`${API}/admin/users`, {
             method: "POST",
@@ -1209,7 +1089,6 @@
             alert(data.detail || "Error creating user.");
             return;
           }
-
           document.getElementById("new-user-pin").textContent =
             `✅ Created! PIN: ${data.pin}`;
           document.getElementById("new-user-pin").style.display = "block";
@@ -1232,13 +1111,11 @@
         }
       }
 
-      // --- Top Up ---
       async function openTopUp(userId, name) {
         document.getElementById("topup-user-id").value = userId;
         document.getElementById("topup-mins").value = "";
         document.getElementById("topup-balance-display").textContent =
           `Loading balance for ${name}...`;
-
         try {
           const res = await fetch(`${API}/balance/${userId}`, {
             headers: authHeaders(),
@@ -1249,7 +1126,6 @@
         } catch (e) {
           document.getElementById("topup-balance-display").textContent = name;
         }
-
         openModal("modal-topup");
       }
 
@@ -1260,7 +1136,6 @@
           alert("Enter valid minutes.");
           return;
         }
-
         try {
           const res = await fetch(`${API}/balance/topup`, {
             method: "POST",
@@ -1279,27 +1154,21 @@
         }
       }
 
-      // --- Distributors ---
       async function loadDistros() {
         const list = document.getElementById("distros-list");
         list.innerHTML = '<div class="loading">Loading...</div>';
-
         try {
           const [distrosRes, usersRes] = await Promise.all([
             fetch(`${API}/admin/distributors`, { headers: authHeaders() }),
             fetch(`${API}/admin/users`, { headers: authHeaders() }),
           ]);
-
           const distros = await distrosRes.json();
           const users = await usersRes.json();
-
           if (!distros.length) {
             list.innerHTML =
               '<div class="empty-state">No distributors yet.</div>';
             return;
           }
-
-          // Fetch commission settings for each distro
           const settingsResults = await Promise.all(
             distros.map((d) =>
               fetch(`${API}/admin/distributors/${d.id}/settings`, {
@@ -1309,7 +1178,6 @@
                 .catch(() => ({ commission_rate: 10.0 })),
             ),
           );
-
           list.innerHTML = distros
             .map((d, i) => {
               const userCount = users.filter(
@@ -1317,34 +1185,28 @@
               ).length;
               const commission = settingsResults[i]?.commission_rate ?? 10.0;
               return `
-                <div class="item-card">
-                    <div class="item-card-top">
-                        <div class="item-card-name">${d.full_name}</div>
-                        <span class="pill ${d.is_active ? "pill-green" : "pill-red"}">${d.is_active ? "Active" : "Inactive"}</span>
-                    </div>
-                    <div class="item-card-meta">
-                        <div class="meta-item">Email: <span>${d.email}</span></div>
-                        <div class="meta-item">Phone: <span>${d.phone || "—"}</span></div>
-                        <div class="meta-item">Users: <span>${userCount}</span></div>
-                        <div class="meta-item">Commission: <span style="color:#00c853;font-weight:700">${commission}%</span></div>
-                    </div>
-                    <div class="item-card-actions">
-                        <button class="btn-sm btn-gray-sm" onclick="openCommission(${d.id}, ${commission})">⚙ Commission</button>
-                        ${d.is_active ? `<button class="btn-sm btn-red-sm" onclick="deactivateUser(${d.id}, '${d.full_name}')">Deactivate</button>` : ""}
-                    </div>
-                </div>`;
+              <div class="item-card">
+                <div class="item-card-top">
+                  <div class="item-card-name">${d.full_name}</div>
+                  <span class="pill ${d.is_active ? "pill-green" : "pill-red"}">${d.is_active ? "Active" : "Inactive"}</span>
+                </div>
+                <div class="item-card-meta">
+                  <div class="meta-item">Email: <span>${d.email}</span></div>
+                  <div class="meta-item">Phone: <span>${d.phone || "—"}</span></div>
+                  <div class="meta-item">Users: <span>${userCount}</span></div>
+                  <div class="meta-item">Commission: <span style="color:#00c853;font-weight:700">${commission}%</span></div>
+                </div>
+                <div class="item-card-actions">
+                  <button class="btn-sm btn-gray-sm" onclick="openCommission(${d.id}, ${commission})">⚙ Commission</button>
+                  ${d.is_active ? `<button class="btn-sm btn-red-sm" onclick="deactivateUser(${d.id}, '${d.full_name}')">Deactivate</button>` : ""}
+                </div>
+              </div>`;
             })
             .join("");
         } catch (e) {
           list.innerHTML =
             '<div class="empty-state">Failed to load distributors.</div>';
         }
-      }
-
-      function openCommission(distroId, currentRate) {
-        document.getElementById("commission-distro-id").value = distroId;
-        document.getElementById("commission-rate").value = currentRate ?? "";
-        openModal("modal-commission");
       }
 
       function openAddDistro() {
@@ -1365,12 +1227,10 @@
           password: document.getElementById("distro-password").value,
           role: "distributor",
         };
-
         if (!payload.full_name || !payload.email || !payload.password) {
           alert("Name, email and password required.");
           return;
         }
-
         try {
           const res = await fetch(`${API}/admin/distributors`, {
             method: "POST",
@@ -1389,9 +1249,9 @@
         }
       }
 
-      function openCommission(distroId) {
+      function openCommission(distroId, currentRate) {
         document.getElementById("commission-distro-id").value = distroId;
-        document.getElementById("commission-rate").value = "";
+        document.getElementById("commission-rate").value = currentRate ?? "";
         openModal("modal-commission");
       }
 
@@ -1404,7 +1264,6 @@
           alert("Enter a valid rate.");
           return;
         }
-
         try {
           const res = await fetch(
             `${API}/admin/distributors/${distroId}/settings`,
@@ -1426,37 +1285,36 @@
         }
       }
 
-      // --- Messages ---
       async function loadMessages() {
         const list = document.getElementById("messages-list");
         list.innerHTML = '<div class="loading">Loading...</div>';
-
         try {
           const res = await fetch(`${API}/machine/messages`, {
             headers: authHeaders(),
           });
           const messages = await res.json();
-
           if (!messages.length) {
             list.innerHTML = '<div class="empty-state">No messages yet.</div>';
             return;
           }
-
           list.innerHTML = messages
             .map(
               (m) => `
-                <div class="msg-item ${m.is_read ? "read" : "unread"}">
-                    <div class="msg-header">
-                        <span class="msg-sender">👤 ${m.full_name}</span>
-                        <span class="msg-time">${new Date(m.created_at).toLocaleString("en-KE")}</span>
-                    </div>
-                    <div class="msg-body">${m.message}</div>
-                    ${!m.is_read ? `<button class="btn-sm btn-green-sm" onclick="markRead(${m.id})">✓ Mark Read</button>` : '<span class="pill pill-gray">Read</span>'}
-                </div>
-            `,
+            <div class="msg-item ${m.is_read ? "read" : "unread"}">
+              <div class="msg-header">
+                <span class="msg-sender">👤 ${m.full_name}</span>
+                <span class="msg-time">${new Date(m.created_at).toLocaleString("en-KE")}</span>
+              </div>
+              <div class="msg-body">${m.message}</div>
+              ${
+                !m.is_read
+                  ? `<button class="btn-sm btn-green-sm" onclick="markRead(${m.id})">✓ Mark Read</button>`
+                  : '<span class="pill pill-gray">Read</span>'
+              }
+            </div>
+          `,
             )
             .join("");
-
           updateMsgBadge(messages.filter((m) => !m.is_read).length);
         } catch (e) {
           list.innerHTML =
@@ -1474,40 +1332,36 @@
         } catch (e) {}
       }
 
-      // --- Packages ---
       async function loadPackages() {
         const list = document.getElementById("packages-list");
         list.innerHTML = '<div class="loading">Loading...</div>';
-
         try {
           const res = await fetch(`${API}/packages/`, {
             headers: authHeaders(),
           });
           const packages = await res.json();
-
           if (!packages.length) {
             list.innerHTML = '<div class="empty-state">No packages.</div>';
             return;
           }
-
           list.innerHTML = packages
             .map(
               (p) => `
-                <div class="item-card">
-                    <div class="item-card-top">
-                        <div class="item-card-name">${p.name}</div>
-                        <span class="pill ${p.is_active ? "pill-green" : "pill-red"}">${p.is_active ? "Active" : "Inactive"}</span>
-                    </div>
-                    <div class="item-card-meta">
-                        <div class="meta-item">Price: <span>KES ${p.price_kes.toLocaleString()}</span></div>
-                        <div class="meta-item">Credits: <span>${p.credits} mins</span></div>
-                        <div class="meta-item">Value: <span>${(p.credits / p.price_kes).toFixed(3)} min/KES</span></div>
-                    </div>
-                    <div class="item-card-actions">
-                        ${p.is_active ? `<button class="btn-sm btn-red-sm" onclick="deactivatePackage(${p.id}, '${p.name}')">Deactivate</button>` : ""}
-                    </div>
-                </div>
-            `,
+            <div class="item-card">
+              <div class="item-card-top">
+                <div class="item-card-name">${p.name}</div>
+                <span class="pill ${p.is_active ? "pill-green" : "pill-red"}">${p.is_active ? "Active" : "Inactive"}</span>
+              </div>
+              <div class="item-card-meta">
+                <div class="meta-item">Price: <span>KES ${p.price_kes.toLocaleString()}</span></div>
+                <div class="meta-item">Credits: <span>${p.credits} mins</span></div>
+                <div class="meta-item">Value: <span>${(p.credits / p.price_kes).toFixed(3)} min/KES</span></div>
+              </div>
+              <div class="item-card-actions">
+                ${p.is_active ? `<button class="btn-sm btn-red-sm" onclick="deactivatePackage(${p.id}, '${p.name}')">Deactivate</button>` : ""}
+              </div>
+            </div>
+          `,
             )
             .join("");
         } catch (e) {
@@ -1531,12 +1385,10 @@
           description: document.getElementById("pkg-desc").value.trim() || null,
           is_active: true,
         };
-
         if (!payload.name || !payload.price_kes || !payload.credits) {
           alert("Name, price and credits required.");
           return;
         }
-
         try {
           const res = await fetch(`${API}/packages/`, {
             method: "POST",
@@ -1568,7 +1420,6 @@
         }
       }
 
-      // --- Modal helpers ---
       function openModal(id) {
         document.getElementById(id).classList.add("active");
       }
@@ -1582,7 +1433,6 @@
         });
       });
 
-      // --- Init ---
       loadOverview();
     </script>
   </body>
