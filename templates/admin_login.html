@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vixon Admin — Login</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #0a0a0a;
+        color: #ffffff;
+        font-family: "Segoe UI", sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .login-wrap {
+        width: 100%;
+        max-width: 420px;
+        padding: 24px;
+      }
+
+      .logo-section {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .logo-section img {
+        width: 120px;
+        height: auto;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        filter: drop-shadow(0 0 24px rgba(0, 200, 83, 0.4));
+      }
+
+      .logo-section h1 {
+        font-size: 2rem;
+        font-weight: 800;
+        letter-spacing: 6px;
+        color: #ffffff;
+      }
+
+      .logo-section p {
+        font-size: 0.75rem;
+        color: #00c853;
+        letter-spacing: 4px;
+        margin-top: 4px;
+      }
+
+      .logo-section .tagline {
+        font-size: 0.7rem;
+        color: #444444;
+        letter-spacing: 1px;
+        margin-top: 10px;
+      }
+
+      .card {
+        background: #111111;
+        border: 1px solid #1e1e1e;
+        border-radius: 16px;
+        padding: 32px 28px;
+      }
+
+      .card h2 {
+        font-size: 0.85rem;
+        color: #555555;
+        letter-spacing: 2px;
+        margin-bottom: 24px;
+        text-align: center;
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 0.7rem;
+        color: #555555;
+        letter-spacing: 2px;
+        margin-bottom: 6px;
+      }
+
+      .form-group input {
+        background: #1a1a1a;
+        border: 1px solid #2a2a2a;
+        border-radius: 10px;
+        color: #ffffff;
+        font-size: 0.95rem;
+        padding: 12px 14px;
+        width: 100%;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+
+      .form-group input:focus {
+        border-color: #00c853;
+      }
+
+      .btn-login {
+        background: #00c853;
+        border: none;
+        border-radius: 10px;
+        color: #000000;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        padding: 14px;
+        width: 100%;
+        margin-top: 8px;
+        transition: background 0.2s;
+      }
+
+      .btn-login:hover {
+        background: #00e676;
+      }
+
+      .error-msg {
+        background: #1a0a0a;
+        border: 1px solid #ff1744;
+        border-radius: 8px;
+        color: #ff1744;
+        font-size: 0.8rem;
+        padding: 10px;
+        margin-bottom: 16px;
+        display: none;
+        text-align: center;
+      }
+
+      .footer-note {
+        text-align: center;
+        font-size: 0.65rem;
+        color: #2a2a2a;
+        margin-top: 24px;
+        letter-spacing: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-wrap">
+      <div class="logo-section">
+        <img src="/static/vixon-logo1.jpg" alt="Vixon Logo" />
+        <h1>VIXON</h1>
+        <p>PREPAID SYSTEM</p>
+        <div class="tagline">ADMINISTRATION PORTAL · V2.0</div>
+      </div>
+
+      <div class="card">
+        <h2>SIGN IN TO CONTINUE</h2>
+
+        <div class="error-msg" id="login-error">Invalid email or password.</div>
+
+        <div class="form-group">
+          <label>EMAIL ADDRESS</label>
+          <input
+            type="email"
+            id="email-input"
+            placeholder="admin@vixon.co.ke"
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>PASSWORD</label>
+          <input
+            type="password"
+            id="password-input"
+            placeholder="••••••••"
+            autocomplete="current-password"
+          />
+        </div>
+
+        <button class="btn-login" onclick="doLogin()">LOGIN →</button>
+      </div>
+
+      <div class="footer-note">POWERED BY VERTA SYSTEMS · 2026</div>
+    </div>
+
+    <script>
+      // Redirect if already logged in
+      const token = localStorage.getItem("vixon_token");
+      const role = localStorage.getItem("vixon_role");
+      if (token && role) {
+        if (role === "distributor") window.location.href = "/distro";
+        else window.location.href = "/admin";
+      }
+
+      document
+        .getElementById("password-input")
+        .addEventListener("keydown", function (e) {
+          if (e.key === "Enter") doLogin();
+        });
+
+      async function doLogin() {
+        const email = document.getElementById("email-input").value.trim();
+        const password = document.getElementById("password-input").value;
+        const errEl = document.getElementById("login-error");
+        errEl.style.display = "none";
+
+        if (!email || !password) {
+          errEl.textContent = "Please enter email and password.";
+          errEl.style.display = "block";
+          return;
+        }
+
+        try {
+          const res = await fetch("/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            errEl.textContent = data.detail || "Invalid email or password.";
+            errEl.style.display = "block";
+            return;
+          }
+
+          // Store token and role
+          localStorage.setItem("vixon_token", data.access_token);
+          localStorage.setItem("vixon_role", data.role);
+          localStorage.setItem("vixon_name", data.full_name);
+
+          // Redirect based on role
+          if (data.role === "distributor") {
+            window.location.href = "/distro";
+          } else {
+            window.location.href = "/admin";
+          }
+        } catch (e) {
+          errEl.textContent = "Connection error. Try again.";
+          errEl.style.display = "block";
+        }
+      }
+    </script>
+  </body>
+</html>

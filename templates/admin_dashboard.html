@@ -1,0 +1,1454 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vixon Admin Dashboard</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #0a0a0a;
+        color: #ffffff;
+        font-family: "Segoe UI", sans-serif;
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        background: #0f0f0f;
+        border-right: 1px solid #1a1a1a;
+        width: 220px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 50;
+      }
+
+      .sidebar-logo {
+        padding: 20px 16px 16px;
+        border-bottom: 1px solid #1a1a1a;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .sidebar-logo img {
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+        object-fit: cover;
+        filter: drop-shadow(0 0 8px rgba(0, 200, 83, 0.5));
+      }
+
+      .sidebar-logo-text h2 {
+        font-size: 0.95rem;
+        font-weight: 800;
+        letter-spacing: 3px;
+        color: #ffffff;
+      }
+
+      .sidebar-logo-text p {
+        font-size: 0.6rem;
+        color: #00c853;
+        letter-spacing: 2px;
+      }
+
+      .sidebar-nav {
+        flex: 1;
+        padding: 16px 0;
+      }
+
+      .nav-section-label {
+        font-size: 0.6rem;
+        color: #333333;
+        letter-spacing: 2px;
+        padding: 12px 16px 6px;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 16px;
+        cursor: pointer;
+        color: #666666;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: all 0.15s;
+        border-left: 3px solid transparent;
+        position: relative;
+      }
+
+      .nav-item:hover {
+        background: #151515;
+        color: #aaaaaa;
+      }
+      .nav-item.active {
+        background: #0d1f14;
+        color: #00c853;
+        border-left-color: #00c853;
+      }
+
+      .nav-item .icon {
+        font-size: 1rem;
+        width: 20px;
+        text-align: center;
+      }
+
+      .badge {
+        background: #ff1744;
+        border-radius: 10px;
+        color: #ffffff;
+        font-size: 0.6rem;
+        font-weight: 700;
+        padding: 2px 6px;
+        margin-left: auto;
+      }
+
+      .sidebar-footer {
+        padding: 16px;
+        border-top: 1px solid #1a1a1a;
+      }
+
+      .admin-name {
+        font-size: 0.75rem;
+        color: #555555;
+        margin-bottom: 8px;
+      }
+
+      .admin-name span {
+        color: #00c853;
+      }
+
+      .btn-logout {
+        background: transparent;
+        border: 1px solid #2a2a2a;
+        border-radius: 8px;
+        color: #555555;
+        cursor: pointer;
+        font-size: 0.75rem;
+        padding: 8px 12px;
+        width: 100%;
+        transition: all 0.15s;
+      }
+
+      .btn-logout:hover {
+        border-color: #ff1744;
+        color: #ff1744;
+      }
+
+      /* Main content */
+      .main {
+        margin-left: 220px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .topbar {
+        background: #0f0f0f;
+        border-bottom: 1px solid #1a1a1a;
+        padding: 14px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 40;
+      }
+
+      .topbar-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #ffffff;
+        letter-spacing: 1px;
+      }
+
+      .topbar-right {
+        font-size: 0.75rem;
+        color: #444444;
+      }
+
+      .content {
+        padding: 24px;
+        flex: 1;
+      }
+
+      /* Cards / Stats */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+
+      .stat-card {
+        background: #111111;
+        border: 1px solid #1e1e1e;
+        border-radius: 12px;
+        padding: 20px;
+      }
+
+      .stat-card .stat-label {
+        font-size: 0.65rem;
+        color: #555555;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+      }
+
+      .stat-card .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #00c853;
+      }
+
+      .stat-card .stat-sub {
+        font-size: 0.7rem;
+        color: #444444;
+        margin-top: 4px;
+      }
+
+      /* Section */
+      .section {
+        display: none;
+      }
+      .section.active {
+        display: block;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .section-header h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #ffffff;
+      }
+
+      .btn-primary {
+        background: #00c853;
+        border: none;
+        border-radius: 8px;
+        color: #000000;
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        padding: 8px 16px;
+        transition: background 0.2s;
+      }
+
+      .btn-primary:hover {
+        background: #00e676;
+      }
+
+      .btn-sm {
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding: 5px 10px;
+        transition: all 0.15s;
+      }
+
+      .btn-green-sm {
+        background: #0d1f14;
+        color: #00c853;
+        border: 1px solid #00c853;
+      }
+      .btn-green-sm:hover {
+        background: #00c853;
+        color: #000;
+      }
+      .btn-red-sm {
+        background: #1a0a0a;
+        color: #ff1744;
+        border: 1px solid #ff1744;
+      }
+      .btn-red-sm:hover {
+        background: #ff1744;
+        color: #fff;
+      }
+      .btn-gray-sm {
+        background: #1a1a1a;
+        color: #888888;
+        border: 1px solid #2a2a2a;
+      }
+      .btn-gray-sm:hover {
+        background: #252525;
+        color: #fff;
+      }
+
+      /* Table */
+      .table-wrap {
+        background: #111111;
+        border: 1px solid #1e1e1e;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.82rem;
+      }
+
+      thead th {
+        background: #151515;
+        border-bottom: 1px solid #1e1e1e;
+        color: #555555;
+        font-size: 0.65rem;
+        font-weight: 600;
+        letter-spacing: 2px;
+        padding: 12px 16px;
+        text-align: left;
+      }
+
+      tbody tr {
+        border-bottom: 1px solid #141414;
+        transition: background 0.1s;
+      }
+
+      tbody tr:last-child {
+        border-bottom: none;
+      }
+      tbody tr:hover {
+        background: #141414;
+      }
+
+      tbody td {
+        color: #cccccc;
+        padding: 12px 16px;
+      }
+
+      .pill {
+        border-radius: 20px;
+        font-size: 0.65rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        padding: 3px 10px;
+      }
+
+      .pill-green {
+        background: #0d1f14;
+        color: #00c853;
+      }
+      .pill-red {
+        background: #1a0a0a;
+        color: #ff1744;
+      }
+      .pill-yellow {
+        background: #1a1500;
+        color: #ffb300;
+      }
+      .pill-gray {
+        background: #1a1a1a;
+        color: #888888;
+      }
+
+      /* Messages */
+      .msg-item {
+        background: #111111;
+        border: 1px solid #1e1e1e;
+        border-radius: 10px;
+        padding: 16px;
+        margin-bottom: 10px;
+        transition: border-color 0.15s;
+      }
+
+      .msg-item.unread {
+        border-left: 3px solid #00c853;
+      }
+      .msg-item.read {
+        opacity: 0.6;
+      }
+
+      .msg-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      .msg-sender {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #ffffff;
+      }
+      .msg-time {
+        font-size: 0.7rem;
+        color: #444444;
+      }
+      .msg-body {
+        font-size: 0.82rem;
+        color: #888888;
+        line-height: 1.5;
+      }
+
+      /* Modal */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.85);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 200;
+        padding: 20px;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+      }
+
+      .modal {
+        background: #111111;
+        border: 1px solid #1e1e1e;
+        border-radius: 16px;
+        padding: 28px 24px;
+        width: 100%;
+        max-width: 420px;
+      }
+
+      .modal h3 {
+        font-size: 0.95rem;
+        color: #00c853;
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 14px;
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 0.65rem;
+        color: #555555;
+        letter-spacing: 2px;
+        margin-bottom: 6px;
+      }
+
+      .form-group input,
+      .form-group select {
+        background: #1a1a1a;
+        border: 1px solid #2a2a2a;
+        border-radius: 8px;
+        color: #ffffff;
+        font-size: 0.85rem;
+        padding: 10px 12px;
+        width: 100%;
+        outline: none;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus {
+        border-color: #00c853;
+      }
+
+      .form-group select option {
+        background: #1a1a1a;
+      }
+
+      .modal-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .modal-actions .btn-primary {
+        flex: 1;
+        padding: 12px;
+      }
+
+      .btn-cancel {
+        background: transparent;
+        border: 1px solid #2a2a2a;
+        border-radius: 8px;
+        color: #555555;
+        cursor: pointer;
+        font-size: 0.8rem;
+        padding: 12px 16px;
+        transition: all 0.15s;
+      }
+
+      .btn-cancel:hover {
+        border-color: #555;
+        color: #888;
+      }
+
+      .pin-result {
+        background: #0d1f14;
+        border: 1px solid #00c853;
+        border-radius: 8px;
+        color: #00c853;
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: 4px;
+        padding: 12px;
+        text-align: center;
+        margin-top: 12px;
+        display: none;
+      }
+
+      .loading {
+        color: #444444;
+        font-size: 0.85rem;
+        padding: 24px;
+        text-align: center;
+      }
+
+      .empty-state {
+        color: #333333;
+        font-size: 0.85rem;
+        padding: 40px;
+        text-align: center;
+      }
+
+      /* Top-up modal */
+      #topup-balance-display {
+        font-size: 0.8rem;
+        color: #555;
+        margin-bottom: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-logo">
+        <img src="/static/vixon-logo1.jpg" alt="Vixon" />
+        <div class="sidebar-logo-text">
+          <h2>VIXON</h2>
+          <p>PREPAID SYSTEM</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">MAIN</div>
+        <div class="nav-item active" onclick="showSection('overview')">
+          <span class="icon">📊</span> Overview
+        </div>
+
+        <div class="nav-section-label">MANAGE</div>
+        <div class="nav-item" onclick="showSection('users')">
+          <span class="icon">👤</span> Users
+        </div>
+        <div class="nav-item" onclick="showSection('distributors')">
+          <span class="icon">🏪</span> Distributors
+        </div>
+        <div class="nav-item" onclick="showSection('messages')">
+          <span class="icon">✉</span> Messages
+          <span class="badge" id="msg-badge" style="display: none">0</span>
+        </div>
+
+        <div class="nav-section-label">SYSTEM</div>
+        <div class="nav-item" onclick="showSection('packages')">
+          <span class="icon">📦</span> Packages
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-name">
+          Logged in as<br /><span id="admin-name-display">—</span>
+        </div>
+        <button class="btn-logout" onclick="logout()">🔒 Logout</button>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+      <div class="topbar">
+        <div class="topbar-title" id="topbar-title">Overview</div>
+        <div class="topbar-right" id="topbar-date">—</div>
+      </div>
+
+      <div class="content">
+        <!-- OVERVIEW -->
+        <div class="section active" id="section-overview">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">TOTAL USERS</div>
+              <div class="stat-value" id="stat-users">—</div>
+              <div class="stat-sub">Active machine users</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">DISTRIBUTORS</div>
+              <div class="stat-value" id="stat-distros">—</div>
+              <div class="stat-sub">Active agents</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">UNREAD MESSAGES</div>
+              <div class="stat-value" id="stat-messages" style="color: #ff9800">
+                —
+              </div>
+              <div class="stat-sub">From machine users</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">PACKAGES</div>
+              <div class="stat-value" id="stat-packages">—</div>
+              <div class="stat-sub">Active packages</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- USERS -->
+        <div class="section" id="section-users">
+          <div class="section-header">
+            <h3>All Users</h3>
+            <button class="btn-primary" onclick="openAddUser()">
+              + Add User
+            </button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>NAME</th>
+                  <th>PHONE</th>
+                  <th>PIN</th>
+                  <th>PACKAGE</th>
+                  <th>DISTRIBUTOR</th>
+                  <th>STATUS</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="users-tbody">
+                <tr>
+                  <td colspan="7" class="loading">Loading...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- DISTRIBUTORS -->
+        <div class="section" id="section-distributors">
+          <div class="section-header">
+            <h3>Distributors</h3>
+            <button class="btn-primary" onclick="openAddDistro()">
+              + Add Distributor
+            </button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>NAME</th>
+                  <th>EMAIL</th>
+                  <th>PHONE</th>
+                  <th>COMMISSION</th>
+                  <th>USERS</th>
+                  <th>STATUS</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="distros-tbody">
+                <tr>
+                  <td colspan="7" class="loading">Loading...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- MESSAGES -->
+        <div class="section" id="section-messages">
+          <div class="section-header">
+            <h3>Messages from Users</h3>
+          </div>
+          <div id="messages-list">
+            <div class="loading">Loading...</div>
+          </div>
+        </div>
+
+        <!-- PACKAGES -->
+        <div class="section" id="section-packages">
+          <div class="section-header">
+            <h3>Packages</h3>
+            <button class="btn-primary" onclick="openAddPackage()">
+              + Add Package
+            </button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>NAME</th>
+                  <th>PRICE (KES)</th>
+                  <th>CREDITS (MINS)</th>
+                  <th>VALUE/KES</th>
+                  <th>STATUS</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="packages-tbody">
+                <tr>
+                  <td colspan="6" class="loading">Loading...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Add User -->
+    <div class="modal-overlay" id="modal-add-user">
+      <div class="modal">
+        <h3>👤 Add New User</h3>
+        <div class="form-group">
+          <label>FULL NAME</label>
+          <input type="text" id="user-name" placeholder="John Doe" />
+        </div>
+        <div class="form-group">
+          <label>EMAIL</label>
+          <input type="email" id="user-email" placeholder="user@email.com" />
+        </div>
+        <div class="form-group">
+          <label>PHONE</label>
+          <input type="text" id="user-phone" placeholder="0712345678" />
+        </div>
+        <div class="form-group">
+          <label>PASSWORD</label>
+          <input
+            type="password"
+            id="user-password"
+            placeholder="Set a password"
+          />
+        </div>
+        <div class="form-group">
+          <label>PACKAGE</label>
+          <select id="user-package">
+            <option value="">— Select Package —</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>DISTRIBUTOR (optional)</label>
+          <select id="user-distro">
+            <option value="">— Direct User (No Distro) —</option>
+          </select>
+        </div>
+        <div class="pin-result" id="new-user-pin">PIN: ----</div>
+        <div class="modal-actions">
+          <button class="btn-cancel" onclick="closeModal('modal-add-user')">
+            Cancel
+          </button>
+          <button class="btn-primary" onclick="submitAddUser()">
+            Create User
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Add Distributor -->
+    <div class="modal-overlay" id="modal-add-distro">
+      <div class="modal">
+        <h3>🏪 Add Distributor</h3>
+        <div class="form-group">
+          <label>FULL NAME</label>
+          <input type="text" id="distro-name" placeholder="Agent Name" />
+        </div>
+        <div class="form-group">
+          <label>EMAIL</label>
+          <input type="email" id="distro-email" placeholder="agent@email.com" />
+        </div>
+        <div class="form-group">
+          <label>PHONE</label>
+          <input type="text" id="distro-phone" placeholder="0712345678" />
+        </div>
+        <div class="form-group">
+          <label>PASSWORD</label>
+          <input
+            type="password"
+            id="distro-password"
+            placeholder="Set a password"
+          />
+        </div>
+        <div class="modal-actions">
+          <button class="btn-cancel" onclick="closeModal('modal-add-distro')">
+            Cancel
+          </button>
+          <button class="btn-primary" onclick="submitAddDistro()">
+            Create Distributor
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Top Up -->
+    <div class="modal-overlay" id="modal-topup">
+      <div class="modal">
+        <h3>💳 Manual Top Up</h3>
+        <div id="topup-balance-display">Current balance: loading...</div>
+        <div class="form-group">
+          <label>MINUTES TO ADD</label>
+          <input type="number" id="topup-mins" placeholder="e.g. 200" min="1" />
+        </div>
+        <input type="hidden" id="topup-user-id" />
+        <div class="modal-actions">
+          <button class="btn-cancel" onclick="closeModal('modal-topup')">
+            Cancel
+          </button>
+          <button class="btn-primary" onclick="submitTopUp()">
+            Add Minutes
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Add Package -->
+    <div class="modal-overlay" id="modal-add-package">
+      <div class="modal">
+        <h3>📦 Add Package</h3>
+        <div class="form-group">
+          <label>PACKAGE NAME</label>
+          <input type="text" id="pkg-name" placeholder="e.g. Starter" />
+        </div>
+        <div class="form-group">
+          <label>PRICE (KES)</label>
+          <input type="number" id="pkg-price" placeholder="2000" />
+        </div>
+        <div class="form-group">
+          <label>CREDITS (MINUTES)</label>
+          <input type="number" id="pkg-credits" placeholder="200" />
+        </div>
+        <div class="form-group">
+          <label>DESCRIPTION (optional)</label>
+          <input type="text" id="pkg-desc" placeholder="Entry level" />
+        </div>
+        <div class="modal-actions">
+          <button class="btn-cancel" onclick="closeModal('modal-add-package')">
+            Cancel
+          </button>
+          <button class="btn-primary" onclick="submitAddPackage()">
+            Create Package
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Set Commission -->
+    <div class="modal-overlay" id="modal-commission">
+      <div class="modal">
+        <h3>⚙ Set Commission Rate</h3>
+        <div class="form-group">
+          <label>COMMISSION RATE (%)</label>
+          <input
+            type="number"
+            id="commission-rate"
+            placeholder="10"
+            min="0"
+            max="100"
+            step="0.5"
+          />
+        </div>
+        <input type="hidden" id="commission-distro-id" />
+        <div class="modal-actions">
+          <button class="btn-cancel" onclick="closeModal('modal-commission')">
+            Cancel
+          </button>
+          <button class="btn-primary" onclick="submitCommission()">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const API = "";
+      let token = localStorage.getItem("vixon_token");
+      let adminName = localStorage.getItem("vixon_name") || "—";
+
+      // Auth guard
+      if (!token) window.location.href = "/login";
+
+      document.getElementById("admin-name-display").textContent = adminName;
+      document.getElementById("topbar-date").textContent =
+        new Date().toLocaleDateString("en-KE", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+
+      function authHeaders() {
+        return {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        };
+      }
+
+      function logout() {
+        localStorage.removeItem("vixon_token");
+        localStorage.removeItem("vixon_role");
+        localStorage.removeItem("vixon_name");
+        window.location.href = "/login";
+      }
+
+      // --- Navigation ---
+      const sectionTitles = {
+        overview: "Overview",
+        users: "Users",
+        distributors: "Distributors",
+        messages: "Messages",
+        packages: "Packages",
+      };
+
+      function showSection(name) {
+        document
+          .querySelectorAll(".section")
+          .forEach((s) => s.classList.remove("active"));
+        document
+          .querySelectorAll(".nav-item")
+          .forEach((n) => n.classList.remove("active"));
+        document.getElementById(`section-${name}`).classList.add("active");
+        event.currentTarget.classList.add("active");
+        document.getElementById("topbar-title").textContent =
+          sectionTitles[name];
+
+        // Load data for section
+        if (name === "users") loadUsers();
+        if (name === "distributors") loadDistros();
+        if (name === "messages") loadMessages();
+        if (name === "packages") loadPackages();
+        if (name === "overview") loadOverview();
+      }
+
+      // --- Overview ---
+      async function loadOverview() {
+        try {
+          const [usersRes, distrosRes, msgsRes, pkgsRes] = await Promise.all([
+            fetch(`${API}/admin/users`, { headers: authHeaders() }),
+            fetch(`${API}/admin/distributors`, { headers: authHeaders() }),
+            fetch(`${API}/machine/messages/unread/count`, {
+              headers: authHeaders(),
+            }),
+            fetch(`${API}/packages/`, { headers: authHeaders() }),
+          ]);
+
+          const users = await usersRes.json();
+          const distros = await distrosRes.json();
+          const msgs = await msgsRes.json();
+          const pkgs = await pkgsRes.json();
+
+          const activeUsers = users.filter(
+            (u) => u.role === "user" && u.is_active,
+          ).length;
+          const activeDistros = distros.filter((d) => d.is_active).length;
+
+          document.getElementById("stat-users").textContent = activeUsers;
+          document.getElementById("stat-distros").textContent = activeDistros;
+          document.getElementById("stat-messages").textContent =
+            msgs.unread_messages ?? 0;
+          document.getElementById("stat-packages").textContent = pkgs.length;
+
+          // Update message badge
+          const unread = msgs.unread_messages ?? 0;
+          const badge = document.getElementById("msg-badge");
+          if (unread > 0) {
+            badge.textContent = unread;
+            badge.style.display = "inline";
+          } else {
+            badge.style.display = "none";
+          }
+        } catch (e) {
+          console.error("Overview load error", e);
+        }
+      }
+
+      // --- Users ---
+      let allDistros = [];
+      let allPackages = [];
+
+      async function loadUsers() {
+        const tbody = document.getElementById("users-tbody");
+        tbody.innerHTML =
+          '<tr><td colspan="7" class="loading">Loading...</td></tr>';
+
+        try {
+          const [usersRes, distrosRes] = await Promise.all([
+            fetch(`${API}/admin/users`, { headers: authHeaders() }),
+            fetch(`${API}/admin/distributors`, { headers: authHeaders() }),
+          ]);
+
+          const users = await usersRes.json();
+          allDistros = await distrosRes.json();
+
+          const machineUsers = users.filter((u) => u.role === "user");
+
+          if (!machineUsers.length) {
+            tbody.innerHTML =
+              '<tr><td colspan="7" class="empty-state">No users yet.</td></tr>';
+            return;
+          }
+
+          tbody.innerHTML = machineUsers
+            .map((u) => {
+              const distro = allDistros.find((d) => d.id === u.distro_id);
+              return `
+                <tr>
+                    <td><strong>${u.full_name}</strong></td>
+                    <td>${u.phone || "—"}</td>
+                    <td><code style="color:#00c853;letter-spacing:2px">${u.pin || "—"}</code></td>
+                    <td>${u.package_id ? `<span class="pill pill-green">Pkg #${u.package_id}</span>` : '<span class="pill pill-gray">None</span>'}</td>
+                    <td>${distro ? distro.full_name : '<span style="color:#444">Direct</span>'}</td>
+                    <td><span class="pill ${u.is_active ? "pill-green" : "pill-red"}">${u.is_active ? "Active" : "Inactive"}</span></td>
+                    <td style="display:flex;gap:6px;flex-wrap:wrap;">
+                        <button class="btn-sm btn-green-sm" onclick="openTopUp(${u.id}, '${u.full_name}')">Top Up</button>
+                        ${u.is_active ? `<button class="btn-sm btn-red-sm" onclick="deactivateUser(${u.id}, '${u.full_name}')">Deactivate</button>` : ""}
+                    </td>
+                </tr>`;
+            })
+            .join("");
+        } catch (e) {
+          tbody.innerHTML =
+            '<tr><td colspan="7" class="empty-state">Failed to load users.</td></tr>';
+        }
+      }
+
+      async function openAddUser() {
+        // Load packages and distros for dropdowns
+        try {
+          const [pkgsRes, distrosRes] = await Promise.all([
+            fetch(`${API}/packages/`, { headers: authHeaders() }),
+            fetch(`${API}/admin/distributors`, { headers: authHeaders() }),
+          ]);
+          allPackages = await pkgsRes.json();
+          allDistros = await distrosRes.json();
+
+          const pkgSel = document.getElementById("user-package");
+          pkgSel.innerHTML =
+            '<option value="">— Select Package —</option>' +
+            allPackages
+              .map(
+                (p) =>
+                  `<option value="${p.id}">${p.name} — KES ${p.price_kes.toLocaleString()}</option>`,
+              )
+              .join("");
+
+          const distroSel = document.getElementById("user-distro");
+          distroSel.innerHTML =
+            '<option value="">— Direct User (No Distro) —</option>' +
+            allDistros
+              .map((d) => `<option value="${d.id}">${d.full_name}</option>`)
+              .join("");
+        } catch (e) {
+          console.error("Dropdown load error", e);
+        }
+
+        document.getElementById("new-user-pin").style.display = "none";
+        ["user-name", "user-email", "user-phone", "user-password"].forEach(
+          (id) => (document.getElementById(id).value = ""),
+        );
+        openModal("modal-add-user");
+      }
+
+      async function submitAddUser() {
+        const payload = {
+          full_name: document.getElementById("user-name").value.trim(),
+          email: document.getElementById("user-email").value.trim(),
+          phone: document.getElementById("user-phone").value.trim() || null,
+          password: document.getElementById("user-password").value,
+          role: "user",
+          package_id:
+            parseInt(document.getElementById("user-package").value) || null,
+          distro_id:
+            parseInt(document.getElementById("user-distro").value) || null,
+        };
+
+        if (!payload.full_name || !payload.email || !payload.password) {
+          alert("Name, email and password are required.");
+          return;
+        }
+
+        try {
+          const res = await fetch(`${API}/admin/users`, {
+            method: "POST",
+            headers: authHeaders(),
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json();
+
+          if (!res.ok) {
+            alert(data.detail || "Error creating user.");
+            return;
+          }
+
+          // Show the generated PIN
+          document.getElementById("new-user-pin").textContent =
+            `✅ User created! PIN: ${data.pin}`;
+          document.getElementById("new-user-pin").style.display = "block";
+
+          loadUsers();
+        } catch (e) {
+          alert("Error creating user.");
+        }
+      }
+
+      async function deactivateUser(userId, name) {
+        if (!confirm(`Deactivate ${name}?`)) return;
+        try {
+          await fetch(`${API}/admin/users/${userId}/deactivate`, {
+            method: "PATCH",
+            headers: authHeaders(),
+          });
+          loadUsers();
+        } catch (e) {
+          alert("Error deactivating user.");
+        }
+      }
+
+      // --- Top Up ---
+      async function openTopUp(userId, name) {
+        document.getElementById("topup-user-id").value = userId;
+        document.getElementById("topup-mins").value = "";
+        document.getElementById("topup-balance-display").textContent =
+          `Adding minutes for: ${name}`;
+
+        try {
+          const res = await fetch(`${API}/balance/${userId}`, {
+            headers: authHeaders(),
+          });
+          const data = await res.json();
+          document.getElementById("topup-balance-display").textContent =
+            `${name} — Current balance: ${data.balance_mins.toFixed(1)} mins`;
+        } catch (e) {}
+
+        openModal("modal-topup");
+      }
+
+      async function submitTopUp() {
+        const userId = parseInt(document.getElementById("topup-user-id").value);
+        const minutes = parseFloat(document.getElementById("topup-mins").value);
+
+        if (!minutes || minutes <= 0) {
+          alert("Enter valid minutes.");
+          return;
+        }
+
+        try {
+          const res = await fetch(`${API}/balance/topup`, {
+            method: "POST",
+            headers: authHeaders(),
+            body: JSON.stringify({ user_id: userId, minutes }),
+          });
+          if (!res.ok) {
+            const d = await res.json();
+            alert(d.detail || "Error.");
+            return;
+          }
+          closeModal("modal-topup");
+          loadUsers();
+        } catch (e) {
+          alert("Error topping up.");
+        }
+      }
+
+      // --- Distributors ---
+      async function loadDistros() {
+        const tbody = document.getElementById("distros-tbody");
+        tbody.innerHTML =
+          '<tr><td colspan="7" class="loading">Loading...</td></tr>';
+
+        try {
+          const [distrosRes, usersRes] = await Promise.all([
+            fetch(`${API}/admin/distributors`, { headers: authHeaders() }),
+            fetch(`${API}/admin/users`, { headers: authHeaders() }),
+          ]);
+
+          const distros = await distrosRes.json();
+          const users = await usersRes.json();
+
+          if (!distros.length) {
+            tbody.innerHTML =
+              '<tr><td colspan="7" class="empty-state">No distributors yet.</td></tr>';
+            return;
+          }
+
+          tbody.innerHTML = distros
+            .map((d) => {
+              const userCount = users.filter(
+                (u) => u.distro_id === d.id,
+              ).length;
+              return `
+                <tr>
+                    <td><strong>${d.full_name}</strong></td>
+                    <td>${d.email}</td>
+                    <td>${d.phone || "—"}</td>
+                    <td><span style="color:#00c853">10%</span></td>
+                    <td>${userCount} users</td>
+                    <td><span class="pill ${d.is_active ? "pill-green" : "pill-red"}">${d.is_active ? "Active" : "Inactive"}</span></td>
+                    <td style="display:flex;gap:6px;">
+                        <button class="btn-sm btn-gray-sm" onclick="openCommission(${d.id})">⚙ Commission</button>
+                        ${d.is_active ? `<button class="btn-sm btn-red-sm" onclick="deactivateUser(${d.id}, '${d.full_name}')">Deactivate</button>` : ""}
+                    </td>
+                </tr>`;
+            })
+            .join("");
+        } catch (e) {
+          tbody.innerHTML =
+            '<tr><td colspan="7" class="empty-state">Failed to load distributors.</td></tr>';
+        }
+      }
+
+      function openAddDistro() {
+        [
+          "distro-name",
+          "distro-email",
+          "distro-phone",
+          "distro-password",
+        ].forEach((id) => (document.getElementById(id).value = ""));
+        openModal("modal-add-distro");
+      }
+
+      async function submitAddDistro() {
+        const payload = {
+          full_name: document.getElementById("distro-name").value.trim(),
+          email: document.getElementById("distro-email").value.trim(),
+          phone: document.getElementById("distro-phone").value.trim() || null,
+          password: document.getElementById("distro-password").value,
+          role: "distributor",
+        };
+
+        if (!payload.full_name || !payload.email || !payload.password) {
+          alert("Name, email and password required.");
+          return;
+        }
+
+        try {
+          const res = await fetch(`${API}/admin/distributors`, {
+            method: "POST",
+            headers: authHeaders(),
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json();
+          if (!res.ok) {
+            alert(data.detail || "Error.");
+            return;
+          }
+          closeModal("modal-add-distro");
+          loadDistros();
+        } catch (e) {
+          alert("Error creating distributor.");
+        }
+      }
+
+      function openCommission(distroId) {
+        document.getElementById("commission-distro-id").value = distroId;
+        document.getElementById("commission-rate").value = "";
+        openModal("modal-commission");
+      }
+
+      async function submitCommission() {
+        const distroId = document.getElementById("commission-distro-id").value;
+        const rate = parseFloat(
+          document.getElementById("commission-rate").value,
+        );
+        if (isNaN(rate)) {
+          alert("Enter a valid rate.");
+          return;
+        }
+
+        try {
+          const res = await fetch(
+            `${API}/admin/distributors/${distroId}/settings`,
+            {
+              method: "PATCH",
+              headers: authHeaders(),
+              body: JSON.stringify({ commission_rate: rate }),
+            },
+          );
+          if (!res.ok) {
+            const d = await res.json();
+            alert(d.detail || "Error.");
+            return;
+          }
+          closeModal("modal-commission");
+          loadDistros();
+        } catch (e) {
+          alert("Error saving commission.");
+        }
+      }
+
+      // --- Messages ---
+      async function loadMessages() {
+        const list = document.getElementById("messages-list");
+        list.innerHTML = '<div class="loading">Loading...</div>';
+
+        try {
+          const res = await fetch(`${API}/machine/messages`, {
+            headers: authHeaders(),
+          });
+          const messages = await res.json();
+
+          if (!messages.length) {
+            list.innerHTML = '<div class="empty-state">No messages yet.</div>';
+            return;
+          }
+
+          list.innerHTML = messages
+            .map(
+              (m) => `
+                <div class="msg-item ${m.is_read ? "read" : "unread"}">
+                    <div class="msg-header">
+                        <span class="msg-sender">👤 ${m.full_name}</span>
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <span class="msg-time">${new Date(m.created_at).toLocaleString("en-KE")}</span>
+                            ${!m.is_read ? `<button class="btn-sm btn-green-sm" onclick="markRead(${m.id})">Mark Read</button>` : '<span class="pill pill-gray">Read</span>'}
+                        </div>
+                    </div>
+                    <div class="msg-body">${m.message}</div>
+                </div>
+            `,
+            )
+            .join("");
+
+          // Update badge
+          const unread = messages.filter((m) => !m.is_read).length;
+          const badge = document.getElementById("msg-badge");
+          if (unread > 0) {
+            badge.textContent = unread;
+            badge.style.display = "inline";
+          } else {
+            badge.style.display = "none";
+          }
+        } catch (e) {
+          list.innerHTML =
+            '<div class="empty-state">Failed to load messages.</div>';
+        }
+      }
+
+      async function markRead(msgId) {
+        try {
+          await fetch(`${API}/machine/messages/${msgId}/read`, {
+            method: "PATCH",
+            headers: authHeaders(),
+          });
+          loadMessages();
+        } catch (e) {}
+      }
+
+      // --- Packages ---
+      async function loadPackages() {
+        const tbody = document.getElementById("packages-tbody");
+        tbody.innerHTML =
+          '<tr><td colspan="6" class="loading">Loading...</td></tr>';
+
+        try {
+          const res = await fetch(`${API}/packages/`, {
+            headers: authHeaders(),
+          });
+          const packages = await res.json();
+
+          if (!packages.length) {
+            tbody.innerHTML =
+              '<tr><td colspan="6" class="empty-state">No packages.</td></tr>';
+            return;
+          }
+
+          tbody.innerHTML = packages
+            .map(
+              (p) => `
+                <tr>
+                    <td><strong>${p.name}</strong></td>
+                    <td>KES ${p.price_kes.toLocaleString()}</td>
+                    <td>${p.credits} mins</td>
+                    <td>${(p.credits / p.price_kes).toFixed(3)} min/KES</td>
+                    <td><span class="pill ${p.is_active ? "pill-green" : "pill-red"}">${p.is_active ? "Active" : "Inactive"}</span></td>
+                    <td>
+                        ${p.is_active ? `<button class="btn-sm btn-red-sm" onclick="deactivatePackage(${p.id}, '${p.name}')">Deactivate</button>` : ""}
+                    </td>
+                </tr>
+            `,
+            )
+            .join("");
+        } catch (e) {
+          tbody.innerHTML =
+            '<tr><td colspan="6" class="empty-state">Failed to load packages.</td></tr>';
+        }
+      }
+
+      function openAddPackage() {
+        ["pkg-name", "pkg-price", "pkg-credits", "pkg-desc"].forEach(
+          (id) => (document.getElementById(id).value = ""),
+        );
+        openModal("modal-add-package");
+      }
+
+      async function submitAddPackage() {
+        const payload = {
+          name: document.getElementById("pkg-name").value.trim(),
+          price_kes: parseFloat(document.getElementById("pkg-price").value),
+          credits: parseInt(document.getElementById("pkg-credits").value),
+          description: document.getElementById("pkg-desc").value.trim() || null,
+          is_active: true,
+        };
+
+        if (!payload.name || !payload.price_kes || !payload.credits) {
+          alert("Name, price and credits required.");
+          return;
+        }
+
+        try {
+          const res = await fetch(`${API}/packages/`, {
+            method: "POST",
+            headers: authHeaders(),
+            body: JSON.stringify(payload),
+          });
+          if (!res.ok) {
+            const d = await res.json();
+            alert(d.detail || "Error.");
+            return;
+          }
+          closeModal("modal-add-package");
+          loadPackages();
+        } catch (e) {
+          alert("Error creating package.");
+        }
+      }
+
+      async function deactivatePackage(pkgId, name) {
+        if (!confirm(`Deactivate package "${name}"?`)) return;
+        try {
+          await fetch(`${API}/packages/${pkgId}`, {
+            method: "DELETE",
+            headers: authHeaders(),
+          });
+          loadPackages();
+        } catch (e) {
+          alert("Error.");
+        }
+      }
+
+      // --- Modal helpers ---
+      function openModal(id) {
+        document.getElementById(id).classList.add("active");
+      }
+      function closeModal(id) {
+        document.getElementById(id).classList.remove("active");
+      }
+
+      document.querySelectorAll(".modal-overlay").forEach((overlay) => {
+        overlay.addEventListener("click", function (e) {
+          if (e.target === this) this.classList.remove("active");
+        });
+      });
+
+      // --- Init ---
+      loadOverview();
+    </script>
+  </body>
+</html>
